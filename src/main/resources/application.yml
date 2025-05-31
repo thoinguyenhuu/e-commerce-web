@@ -1,0 +1,24 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /shop-api
+
+logging:
+  level:
+    org.springdoc: DEBUG
+    org.springframework.web: DEBUG
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3307/shop-db  # Note: typical MySQL port is 3306
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  access_key: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+  refresh_key : "8u)=}s@pq9_o4&mv]1ezze&c}{!?]$hjt@xz&*((bc7{34&]n8@v?cunwetpwm?["
+  valid-duration: 3600 # in second
+  refreshable-duration: 36000 # in seconds
