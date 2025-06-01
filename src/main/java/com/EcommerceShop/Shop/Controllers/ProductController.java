@@ -29,4 +29,9 @@ public class ProductController {
         return ApiResponse.<List<ProductResponse>>builder()
                 .result(productService.getAllProducts()).build();
     }
+
+    @GetMapping("{/nameCategory}")
+    ApiResponse<List<ProductResponse>> getByCategory(){
+        return ApiResponse.<List<ProductResponse>>builder().build() ;
+    }
 }
