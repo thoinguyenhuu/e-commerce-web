@@ -25,6 +25,6 @@ public class Cart {
 
     //Link
     @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL, orphanRemoval = true)
-    List<CartProduct> cartProducts ;
+    List<CartItem> cartItems;
 
 }

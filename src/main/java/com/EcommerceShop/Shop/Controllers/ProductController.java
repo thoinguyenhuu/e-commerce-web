@@ -1,6 +1,6 @@
 package com.EcommerceShop.Shop.Controllers;
 
-import com.EcommerceShop.Shop.DTO.request.ProductCreateRequest;
+import com.EcommerceShop.Shop.DTO.request.Product.ProductRequest;
 import com.EcommerceShop.Shop.DTO.response.ApiResponse;
 import com.EcommerceShop.Shop.DTO.response.ProductResponse;
 import com.EcommerceShop.Shop.Services.ProductService;
@@ -19,7 +19,7 @@ public class ProductController {
     ProductService productService ;
 
     @PostMapping
-    ApiResponse<ProductResponse> create(@RequestBody  ProductCreateRequest request){
+    ApiResponse<ProductResponse> create(@RequestBody ProductRequest request){
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.create(request)).build();
     }
@@ -30,8 +30,23 @@ public class ProductController {
                 .result(productService.getAllProducts()).build();
     }
 
-    @GetMapping("{/nameCategory}")
-    ApiResponse<List<ProductResponse>> getByCategory(){
-        return ApiResponse.<List<ProductResponse>>builder().build() ;
+    @GetMapping
+    ApiResponse<List<ProductResponse>> getByCategory(@RequestParam String category){
+        return ApiResponse.<List<ProductResponse>>builder()
+                .result(productService.getByCategory(category)).build() ;
     }
+
+    @PutMapping("/info/{id}")
+    ApiResponse<ProductResponse> updateProduct(@PathVariable String id, @RequestBody ProductRequest request){
+        return ApiResponse.<ProductResponse>builder()
+                .result(productService.updateProductInfo(id,request)).build() ;
+    }
+
+
+//    @PutMapping("/detail/{id}")
+//    ApiResponse<ProductResponse> updateProductDetail(@PathVariable String id, @RequestBody UpdateProductDetailRequest request){
+//        return ApiResponse.<ProductResponse>builder()
+//                .result(productService.).build() ;
+//    }
+
 }

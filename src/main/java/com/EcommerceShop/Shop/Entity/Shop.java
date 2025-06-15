@@ -6,18 +6,19 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
+
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "category")
-public class Category {
+@Table(name = "shop")
+public class Shop {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id")
-    String id;
+    String id ;
 
     @Column(name = "name")
     String name ;
@@ -25,9 +26,10 @@ public class Category {
     @Column(name = "description")
     String description ;
 
-    @Column(name = "urlImage")
-    String urlImage ;
-    //Link
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, orphanRemoval = true)
-    List<ProductCategory> productCategories ;
+    @OneToOne
+    @JoinColumn(name = "owner_id")
+    User user ;
+
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Product> product ;
 }

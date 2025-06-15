@@ -6,9 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -35,17 +33,17 @@ public class Product {
     private Float averageRate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User seller;
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Feedback> feedback ;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<OrderProduct> orderProducts;
+    private List<OrderItem> orderItems;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<CartProduct> cartProducts ;
+    private List<CartItem> cartItems;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductDetail> productDetails ;

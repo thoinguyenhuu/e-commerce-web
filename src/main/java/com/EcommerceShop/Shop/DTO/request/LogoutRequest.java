@@ -1,14 +1,9 @@
 package com.EcommerceShop.Shop.DTO.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class LogoutRequest {
     private String token ;
 }

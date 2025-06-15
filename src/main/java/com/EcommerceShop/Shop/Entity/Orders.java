@@ -32,7 +32,7 @@ public class Orders {
 
     // Link
     @OneToMany(mappedBy = "orders",cascade = CascadeType.ALL,orphanRemoval = true)
-    List<OrderProduct> orderProducts ;
+    List<OrderItem> orderItems;
 
     @OneToOne
     Feedback feedback ;

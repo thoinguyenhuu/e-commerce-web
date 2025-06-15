@@ -4,14 +4,10 @@ import com.EcommerceShop.Shop.DTO.request.UserCreationRequest;
 import com.EcommerceShop.Shop.DTO.request.UserUpdateRequest;
 import com.EcommerceShop.Shop.DTO.response.ApiResponse;
 import com.EcommerceShop.Shop.DTO.response.UserResponse;
-import com.EcommerceShop.Shop.Services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     @Autowired
-    UserService userService ;
+    com.EcommerceShop.Shop.Services.UserService userService ;
 
     @GetMapping
     ApiResponse<List<UserResponse>> getAllUser(){

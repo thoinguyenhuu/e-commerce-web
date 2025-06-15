@@ -6,15 +6,12 @@ import lombok.experimental.FieldDefaults;
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
     String password ;
     String firstName ;
     String lastName ;
     Date dob ;
-    List<String> role ;
 }

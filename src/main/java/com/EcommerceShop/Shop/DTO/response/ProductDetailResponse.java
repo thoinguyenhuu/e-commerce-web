@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDetailResponse {
+    private String id ;
     private String info;
     private Float price ;
     private int quantity ;

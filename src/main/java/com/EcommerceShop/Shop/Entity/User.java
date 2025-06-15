@@ -40,8 +40,6 @@ public class User {
     LocalDate dob ;
 
     //Link
-    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    List<Product> products ;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     Set<UserRole> userRoles ;

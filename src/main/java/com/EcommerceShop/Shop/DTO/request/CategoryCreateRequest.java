@@ -1,15 +1,13 @@
 package com.EcommerceShop.Shop.DTO.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.stereotype.Service;
 
-@Data
+@Getter
+@Setter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class CategoryCreateRequest {
     private String name ;
     private String description  ;
+
 }

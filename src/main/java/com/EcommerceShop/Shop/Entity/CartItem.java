@@ -11,19 +11,19 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "order_product")
-public class OrderProduct {
+@Table(name = "cart_product")
+public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "Id")
     String id ;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "order_id")
-    Orders orders;
+    @JoinColumn(name = "cart_id")
+    Cart cart ;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "item_id")
     Product product ;
 
     @Column(name = "num")

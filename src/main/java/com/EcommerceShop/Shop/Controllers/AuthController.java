@@ -1,6 +1,6 @@
 package com.EcommerceShop.Shop.Controllers;
 
-import com.EcommerceShop.Shop.DTO.request.AuthenticateRequest;
+import com.EcommerceShop.Shop.DTO.request.LoginRequest;
 import com.EcommerceShop.Shop.DTO.request.LogoutRequest;
 import com.EcommerceShop.Shop.DTO.request.RefreshAccessTokenRequest;
 import com.EcommerceShop.Shop.DTO.response.ApiResponse;
@@ -21,10 +21,10 @@ import java.text.ParseException;
 @RequestMapping("/auth")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthController {
-    AuthService authService ;
+    AuthService authService;
 
     @PostMapping("/login")
-    public ApiResponse<AuthenticateResponse> login(@RequestBody AuthenticateRequest request){
+    public ApiResponse<AuthenticateResponse> login(@RequestBody LoginRequest request){
         return ApiResponse.<AuthenticateResponse>builder()
                 .result(authService.login(request)).build();
     }

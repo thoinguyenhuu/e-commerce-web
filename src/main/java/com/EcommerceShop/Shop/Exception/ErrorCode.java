@@ -14,7 +14,9 @@ public enum ErrorCode {
     UNAUTHORIZED("Unauthorized!", HttpStatus.FORBIDDEN),
     BAD_REQUEST("Bad Request", HttpStatus.BAD_REQUEST),
     INVALID_TOKEN("Invalid Token", HttpStatus.BAD_REQUEST),
-    CATEGORY_EXISTED("Category existed", HttpStatus.BAD_REQUEST)
+    CATEGORY_EXISTED("Category existed", HttpStatus.BAD_REQUEST),
+    CATEGORY_NOT_FOUND("Category not found", HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_FOUND("Product not found", HttpStatus.BAD_REQUEST)
     ;
     ErrorCode(String message, HttpStatus httpStatus){
         this.code = httpStatus.value();
