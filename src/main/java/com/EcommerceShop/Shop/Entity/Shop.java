@@ -1,5 +1,6 @@
 package com.EcommerceShop.Shop.Entity;
 
+import com.EcommerceShop.Shop.Enums.ShopStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -29,6 +30,9 @@ public class Shop {
     @OneToOne
     @JoinColumn(name = "owner_id")
     User user ;
+
+    @Enumerated(EnumType.STRING)
+    ShopStatus status ;
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Product> product ;

@@ -1,8 +1,9 @@
 # Hello
 ## chạy ở local thì vào này http://localhost:8080/shop-api/swagger-ui/index.html để xem api hiện có 
-### swagger chưa config đầy đủ, xem tạm thôi
+## swagger chưa config đầy đủ, xem tạm thôi
 
-# Database tạm thời hiện tại 
+
+
 # Database_shop_basic documentation
 ## Summary
 
@@ -11,16 +12,14 @@
 - [Table Structure](#table-structure)
 	- [user](#user)
 	- [product](#product)
-	- [role](#role)
-	- [user_role](#user_role)
-	- [Cart](#cart)
-	- [cart_product](#cart_product)
+	- [cart](#cart)
+	- [cart_item](#cart_item)
 	- [category](#category)
 	- [product_detail](#product_detail)
 	- [order](#order)
-	- [order_product](#order_product)
+	- [order_item](#order_item)
 	- [product_category](#product_category)
-	- [Feedback](#feedback)
+	- [feedback](#feedback)
 	- [blacklist_token](#blacklist_token)
 - [Relationships](#relationships)
 - [Database Diagram](#database-diagram)
@@ -36,7 +35,7 @@
 
 | Name        | Type          | Settings                      | References                    | Note                           |
 |-------------|---------------|-------------------------------|-------------------------------|--------------------------------|
-| **id** | VARCHAR(255) | 🔑 PK, not null, unique | fk_user_id_user_role,fk_user_id_product,fk_user_id_Cart,fk_user_id_order,fk_user_id_Feedback | |
+| **id** | VARCHAR(255) | 🔑 PK, not null, unique | fk_user_id_Cart,fk_user_id_order,fk_user_id_Feedback | |
 | **username** | VARCHAR(255) | null |  | |
 | **password** | VARCHAR(255) | null |  | |
 | **firt** | VARCHAR(255) | null |  | |
@@ -50,30 +49,13 @@
 |-------------|---------------|-------------------------------|-------------------------------|--------------------------------|
 | **id** | VARCHAR(255) | 🔑 PK, not null, unique | fk_product_id_product_detail,fk_product_id_order_product,fk_product_id_product_category | |
 | **name** | VARCHAR(255) | null |  | |
-| **user_id** | VARCHAR(255) | null |  | |
+| **shop_id** | VARCHAR(255) | null |  | |
 | **image_url** | VARCHAR(255) | null |  | |
 | **average_rate** | FLOAT | null |  | |
 | **description** | VARCHAR(255) | null |  | | 
 
 
-### role
-
-| Name        | Type          | Settings                      | References                    | Note                           |
-|-------------|---------------|-------------------------------|-------------------------------|--------------------------------|
-| **id** | VARCHAR(255) | 🔑 PK, not null, unique | fk_role_id_user_role | |
-| **name** | VARCHAR(255) | null |  | | 
-
-
-### user_role
-
-| Name        | Type          | Settings                      | References                    | Note                           |
-|-------------|---------------|-------------------------------|-------------------------------|--------------------------------|
-| **user_id** | VARCHAR(255) | null |  | |
-| **role_id** | VARCHAR(255) | null |  | |
-| **id** | VARCHAR(255) | 🔑 PK, null |  | | 
-
-
-### Cart
+### cart
 
 | Name        | Type          | Settings                      | References                    | Note                           |
 |-------------|---------------|-------------------------------|-------------------------------|--------------------------------|
@@ -81,7 +63,7 @@
 | **user_id** | VARCHAR(255) | null |  | | 
 
 
-### cart_product
+### cart_item
 
 | Name        | Type          | Settings                      | References                    | Note                           |
 |-------------|---------------|-------------------------------|-------------------------------|--------------------------------|
@@ -121,7 +103,7 @@
 | **createAt** | TIMESTAMP | null |  | | 
 
 
-### order_product
+### order_item
 
 | Name        | Type          | Settings                      | References                    | Note                           |
 |-------------|---------------|-------------------------------|-------------------------------|--------------------------------|
@@ -140,7 +122,7 @@
 | **id** | VARCHAR(255) | 🔑 PK, null |  | | 
 
 
-### Feedback
+### feedback
 
 | Name        | Type          | Settings                      | References                    | Note                           |
 |-------------|---------------|-------------------------------|-------------------------------|--------------------------------|
@@ -162,41 +144,35 @@
 
 ## Relationships
 
-- **user to user_role**: one_to_many
-- **role to user_role**: one_to_many
-- **user to product**: one_to_many
-- **user to Cart**: one_to_many
-- **Cart to cart_product**: one_to_many
-- **cart_product to product**: many_to_one
+- **user to cart**: one_to_many
+- **cart to cart_item**: one_to_many
+- **cart_item to product**: many_to_one
 - **product to product_detail**: one_to_many
 - **user to order**: one_to_many
-- **order to order_product**: one_to_many
-- **product to order_product**: one_to_many
+- **order to order_item**: one_to_many
+- **product to order_item**: one_to_many
 - **product to product_category**: one_to_many
 - **product_category to category**: many_to_one
-- **user to Feedback**: one_to_many
-- **Feedback to product**: many_to_one
-- **order to Feedback**: one_to_one
+- **user to feedback**: one_to_many
+- **feedback to product**: many_to_one
+- **order to feedback**: one_to_one
 
 ## Database Diagram
 
 ```mermaid
 erDiagram
-	user ||--o{ user_role : references
-	role ||--o{ user_role : references
-	user ||--o{ product : references
-	user ||--o{ Cart : references
-	Cart ||--o{ cart_product : references
-	cart_product }o--|| product : references
+	user ||--o{ cart : references
+	cart ||--o{ cart_item : references
+	cart_item }o--|| product : references
 	product ||--o{ product_detail : references
 	user ||--o{ order : references
-	order ||--o{ order_product : references
-	product ||--o{ order_product : references
+	order ||--o{ order_item : references
+	product ||--o{ order_item : references
 	product ||--o{ product_category : references
 	product_category }o--|| category : references
-	user ||--o{ Feedback : references
-	Feedback }o--|| product : references
-	order ||--|| Feedback : references
+	user ||--o{ feedback : references
+	feedback }o--|| product : references
+	order ||--|| feedback : references
 
 	user {
 		VARCHAR(255) id
@@ -210,29 +186,18 @@ erDiagram
 	product {
 		VARCHAR(255) id
 		VARCHAR(255) name
-		VARCHAR(255) user_id
+		VARCHAR(255) shop_id
 		VARCHAR(255) image_url
 		FLOAT average_rate
 		VARCHAR(255) description
 	}
 
-	role {
-		VARCHAR(255) id
-		VARCHAR(255) name
-	}
-
-	user_role {
-		VARCHAR(255) user_id
-		VARCHAR(255) role_id
-		VARCHAR(255) id
-	}
-
-	Cart {
+	cart {
 		VARCHAR(255) id
 		VARCHAR(255) user_id
 	}
 
-	cart_product {
+	cart_item {
 		VARCHAR(255) cart_id
 		VARCHAR(255) product_id
 		VARCHAR(255) id
@@ -260,7 +225,7 @@ erDiagram
 		TIMESTAMP createAt
 	}
 
-	order_product {
+	order_item {
 		VARCHAR(255) order_id
 		VARCHAR(255) product_id
 		INTEGER num
@@ -273,7 +238,7 @@ erDiagram
 		VARCHAR(255) id
 	}
 
-	Feedback {
+	feedback {
 		VARCHAR(255) id
 		VARCHAR(255) user_id
 		VARCHAR(255) product_id
