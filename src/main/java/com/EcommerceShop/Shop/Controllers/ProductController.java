@@ -36,7 +36,7 @@ public class ProductController {
                 .result(productService.getByCategory(category)).build() ;
     }
 
-    @PutMapping("/info/{id}")
+    @PutMapping("/{id}/info")
     ApiResponse<ProductResponse> updateProduct(@PathVariable String id, @RequestBody ProductRequest request){
         return ApiResponse.<ProductResponse>builder()
                 .result(productService.updateProductInfo(id,request)).build() ;

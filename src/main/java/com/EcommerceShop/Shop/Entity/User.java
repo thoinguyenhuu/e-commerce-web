@@ -1,5 +1,6 @@
 package com.EcommerceShop.Shop.Entity;
 
+import com.EcommerceShop.Shop.Enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -40,9 +41,9 @@ public class User {
     LocalDate dob ;
 
     //Link
-
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<UserRole> userRoles ;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    Role role ;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Cart> carts ;

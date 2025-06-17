@@ -5,9 +5,7 @@ import com.EcommerceShop.Shop.DTO.request.LogoutRequest;
 import com.EcommerceShop.Shop.DTO.request.RefreshAccessTokenRequest;
 import com.EcommerceShop.Shop.DTO.response.AuthenticateResponse;
 import com.EcommerceShop.Shop.Entity.BlacklistToken;
-import com.EcommerceShop.Shop.Entity.Role;
 import com.EcommerceShop.Shop.Entity.User;
-import com.EcommerceShop.Shop.Entity.UserRole;
 import com.EcommerceShop.Shop.Exception.AppException;
 import com.EcommerceShop.Shop.Exception.ErrorCode;
 import com.EcommerceShop.Shop.Repository.BlacklistTokenRepository;
@@ -116,7 +114,7 @@ public class AuthServiceImpl implements AuthService {
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512) ;
         JWTClaimsSet jwtClaimsSet1 = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())
-                .claim("role", user.getUserRoles().stream().map(UserRole::getRole).map(Role::getName).toList())
+                .claim("role", user.getRole().toString())
                 .issueTime(new Date())
                 .expirationTime(new Date(Instant.now().plus(time, chronoUnit).toEpochMilli()))
                 .jwtID(UUID.randomUUID().toString())

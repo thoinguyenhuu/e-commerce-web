@@ -1,5 +1,6 @@
 package com.EcommerceShop.Shop.Services.ServicesImpl;
 
+import com.EcommerceShop.Shop.DTO.request.BrandCreateRequest;
 import com.EcommerceShop.Shop.DTO.request.Product.ProductRequest;
 import com.EcommerceShop.Shop.DTO.request.Product.UpdateProductDetailRequest;
 import com.EcommerceShop.Shop.DTO.response.ProductResponse;
@@ -23,31 +24,18 @@ import java.util.List;
 
 
 @Service
-@Data
-@Builder
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
-    UserRepository userRepository;
-    RoleRepository roleRepository;
-    ProductMapper productMapper;
     CategoryService categoryService;
-    CategoryRepository categoryRepository ;
-    ShopRepository shopRepository ;
+    BrandRepository brandRepository ;
 
-    @PreAuthorize("hasRole('SELLER')")
+    ProductMapper productMapper;
+
+    @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse create(ProductRequest request) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User seller = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.BAD_REQUEST));
-        Role sellerRole = roleRepository.findByName("SELLER");
-        if (seller.getUserRoles().stream().noneMatch(userRole -> userRole.getRole().equals(sellerRole))) {
-            throw new AppException(ErrorCode.UNAUTHORIZED);
-        }
         Product product = productMapper.toProduct(request);
-        Shop shop = shopRepository.findByUser(seller) ;
-        product.setShop(shop);
-        shop.getProduct().add(product) ;
         List<ProductDetail> productDetails = request.getProductDetails().stream()
                 .map(detail -> ProductDetail.builder()
                         .price(detail.getPrice())
@@ -58,12 +46,18 @@ public class ProductServiceImpl implements ProductService {
 
         List<Category> categories = request.getProductCategory().stream()
                 .map(categoryService::getByName).toList();
+
         List<ProductCategory> productCategories = categories.stream()
                 .map(category -> ProductCategory.builder()
                         .product(product)
                         .category(category).build()).toList();
         product.getProductCategories().addAll(productCategories);
 
+        Brand brand = brandRepository.findByName(request.getBrand()) ;
+        if(brand != null){
+            product.setBrand(brand);
+            brand.getProductList().add(product) ;
+        }
         return productMapper.toProductResponse(productRepository.save(product));
     }
 
@@ -78,14 +72,14 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
     }
 
-    @PreAuthorize("hasRole('SELLER)")
+    @PreAuthorize("hasRole('ADMIN)")
     public ProductResponse updateProductInfo(String id, ProductRequest request){
         Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
         productMapper.update(product,request);
         return productMapper.toProductResponse(product) ;
     }
 
-    @PreAuthorize("hasRole('SELLER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse updateProductDetail(String id, UpdateProductDetailRequest request){
         return ProductResponse.builder().build();
     }

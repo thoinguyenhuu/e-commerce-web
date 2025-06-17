@@ -24,5 +24,5 @@ public class UserResponse {
     String firstName ;
     String lastName ;
     Date dob ;
-    Set<String> role ;
+    String role ;
 }

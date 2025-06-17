@@ -32,9 +32,9 @@ public class Product {
     @Column(name = "average_rate")
     private Float averageRate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn (name = "brand_id")
+    private Brand brand ;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Feedback> feedback ;

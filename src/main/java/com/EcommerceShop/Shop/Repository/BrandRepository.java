@@ -1,9 +1,10 @@
 package com.EcommerceShop.Shop.Repository;
 
-import com.EcommerceShop.Shop.Entity.CartItem;
+import com.EcommerceShop.Shop.Entity.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CartItemRepository extends JpaRepository<CartItem, String> {
+public interface BrandRepository extends JpaRepository<Brand,String> {
+    Brand findByName(String name ) ;
 }

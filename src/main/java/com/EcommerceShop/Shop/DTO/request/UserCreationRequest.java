@@ -15,5 +15,4 @@ public class UserCreationRequest {
     String firstName ;
     String lastName ;
     Date dob ;
-    List<String> role ;
 }

@@ -23,8 +23,6 @@ import static org.apache.tomcat.util.IntrospectionUtils.capitalize;
 
 @Slf4j
 @Service
-@Data
-@Builder
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CategoryServiceImpl implements CategoryService {

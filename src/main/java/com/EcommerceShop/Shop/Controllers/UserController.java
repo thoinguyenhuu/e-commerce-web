@@ -4,6 +4,7 @@ import com.EcommerceShop.Shop.DTO.request.UserCreationRequest;
 import com.EcommerceShop.Shop.DTO.request.UserUpdateRequest;
 import com.EcommerceShop.Shop.DTO.response.ApiResponse;
 import com.EcommerceShop.Shop.DTO.response.UserResponse;
+import com.EcommerceShop.Shop.Services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +18,8 @@ import java.util.List;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    com.EcommerceShop.Shop.Services.UserService userService ;
+
+    UserService userService ;
 
     @GetMapping
     ApiResponse<List<UserResponse>> getAllUser(){
@@ -44,6 +45,5 @@ public class UserController {
                 .result(userService.updateUser(userId, request))
                 .build();
     }
-
 
 }
