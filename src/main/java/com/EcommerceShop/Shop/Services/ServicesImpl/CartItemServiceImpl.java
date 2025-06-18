@@ -13,11 +13,15 @@ import com.EcommerceShop.Shop.Repository.CartRepository;
 import com.EcommerceShop.Shop.Repository.ProductRepository;
 import com.EcommerceShop.Shop.Repository.UserRepository;
 import com.EcommerceShop.Shop.Services.CartItemService;
+import com.EcommerceShop.Shop.Services.CartService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -29,17 +33,26 @@ public class CartItemServiceImpl implements CartItemService {
     CartRepository cartRepository ;
     ProductRepository productRepository ;
     CartItemMapper cartItemMapper ;
+    CartService cartService ;
     @Override
     public CartItemResponse create(CartItemCreateRequest request) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName() ;
         Cart cart =  cartRepository.findByUser(userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED))) ;
+        if(cart == null){
+            cart = cartService.create() ;
+        }
         Product product = productRepository.findById(request.getProduct_id()).orElseThrow(() -> new AppException(ErrorCode.BAD_REQUEST)) ;
+        List<CartItem> cartItemList = cartItemRepository.findByCart(cart) ;
+        Optional<CartItem> optionalCartItem = cartItemList.stream().filter(item -> item.getProduct().getId().equals(request.getProduct_id())).findFirst();
+        if(optionalCartItem.isPresent()){
+            optionalCartItem.get().setNum(optionalCartItem.get().getNum() + request.getNum()) ;
+            return cartItemMapper.toCartItemResponse(cartItemRepository.save(optionalCartItem.get())) ;
+        }
 
         CartItem cartItem = CartItem.builder()
                 .cart(cart)
                 .num(request.getNum())
                 .product(product).build();
-
         return cartItemMapper.toCartItemResponse(cartItemRepository.save(cartItem)) ;
 
     }

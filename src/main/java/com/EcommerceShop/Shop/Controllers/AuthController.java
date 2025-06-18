@@ -29,7 +29,7 @@ public class AuthController {
                 .result(authService.login(request)).build();
     }
 
-    @PostMapping("/refresh")
+    @PostMapping("/refresh-token")
     public ApiResponse<AuthenticateResponse> refresh(@RequestBody RefreshAccessTokenRequest request) throws ParseException {
         return ApiResponse.<AuthenticateResponse>builder()
                 .result(authService.refresh(request)).build();

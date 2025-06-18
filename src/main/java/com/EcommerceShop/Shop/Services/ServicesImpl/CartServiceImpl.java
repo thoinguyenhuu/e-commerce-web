@@ -9,6 +9,7 @@ import com.EcommerceShop.Shop.Enums.ErrorCode;
 import com.EcommerceShop.Shop.Mapper.CartMapper;
 import com.EcommerceShop.Shop.Repository.CartRepository;
 import com.EcommerceShop.Shop.Repository.UserRepository;
+import com.EcommerceShop.Shop.Services.CartService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,21 +21,23 @@ import java.util.ArrayList;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-public class CartServiceImpl {
+public class CartServiceImpl implements CartService {
     CartRepository cartRepository ;
     UserRepository userRepository ;
     CartMapper cartMapper ;
 
-    CartResponse create(CartItemCreateRequest request){
+    public Cart create(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName() ;
-        Cart cart = cartMapper.toCart(request) ;
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
 
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
+        Cart cart = Cart.builder()
+                .cartItems(new ArrayList<>())
+                .user(user)
+                .build();
         if(user.getCarts() == null){
             user.setCarts(new ArrayList<>());
         }
-
         user.getCarts().add(cart) ;
-        return null ;
+        return cart ;
     }
 }
