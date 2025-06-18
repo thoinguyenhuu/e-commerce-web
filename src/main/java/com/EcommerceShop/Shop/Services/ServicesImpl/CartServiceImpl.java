@@ -38,6 +38,6 @@ public class CartServiceImpl implements CartService {
             user.setCarts(new ArrayList<>());
         }
         user.getCarts().add(cart) ;
-        return cart ;
+        return cartRepository.save(cart) ;
     }
 }
