@@ -6,7 +6,9 @@ import com.EcommerceShop.Shop.DTO.response.ApiResponse;
 import com.EcommerceShop.Shop.DTO.response.UserResponse;
 import com.EcommerceShop.Shop.Services.UserService;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
 
     UserService userService ;
@@ -33,7 +36,7 @@ public class UserController {
                 .build();
     }
     @PostMapping
-    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request){
+    ApiResponse<UserResponse> createUser(@RequestBody UserCreationRequest request){
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))
                 .build();

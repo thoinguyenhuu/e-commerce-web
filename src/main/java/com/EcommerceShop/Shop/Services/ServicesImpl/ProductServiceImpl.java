@@ -1,23 +1,19 @@
 package com.EcommerceShop.Shop.Services.ServicesImpl;
 
-import com.EcommerceShop.Shop.DTO.request.BrandCreateRequest;
 import com.EcommerceShop.Shop.DTO.request.Product.ProductRequest;
 import com.EcommerceShop.Shop.DTO.request.Product.UpdateProductDetailRequest;
 import com.EcommerceShop.Shop.DTO.response.ProductResponse;
 import com.EcommerceShop.Shop.Entity.*;
 import com.EcommerceShop.Shop.Exception.AppException;
-import com.EcommerceShop.Shop.Exception.ErrorCode;
+import com.EcommerceShop.Shop.Enums.ErrorCode;
 import com.EcommerceShop.Shop.Mapper.ProductMapper;
 import com.EcommerceShop.Shop.Repository.*;
 import com.EcommerceShop.Shop.Services.CategoryService;
 import com.EcommerceShop.Shop.Services.ProductService;
 import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "cart_product")
+@Table(name = "cart_item")
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

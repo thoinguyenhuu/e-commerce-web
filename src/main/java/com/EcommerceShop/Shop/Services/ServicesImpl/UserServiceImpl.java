@@ -7,7 +7,7 @@ import com.EcommerceShop.Shop.DTO.response.UserResponse;
 import com.EcommerceShop.Shop.Entity.User;
 import com.EcommerceShop.Shop.Enums.Role;
 import com.EcommerceShop.Shop.Exception.AppException;
-import com.EcommerceShop.Shop.Exception.ErrorCode;
+import com.EcommerceShop.Shop.Enums.ErrorCode;
 import com.EcommerceShop.Shop.Mapper.UserMapper;
 import com.EcommerceShop.Shop.Repository.UserRepository;
 import com.EcommerceShop.Shop.Services.UserService;

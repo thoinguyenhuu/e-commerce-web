@@ -1,6 +1,7 @@
 package com.EcommerceShop.Shop.Exception;
 
 import com.EcommerceShop.Shop.DTO.response.ApiResponse;
+import com.EcommerceShop.Shop.Enums.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -16,6 +17,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = RuntimeException.class)
     ResponseEntity<ApiResponse<?>> handlingRuntimeException(RuntimeException e){
         log.info(Arrays.toString(e.getStackTrace())) ;
+        log.info(e.getMessage());
         return  ResponseEntity.badRequest().body(ApiResponse.builder()
                 .status(ErrorCode.BAD_REQUEST.getCode())
                 .message(ErrorCode.BAD_REQUEST.getMessage()).build());

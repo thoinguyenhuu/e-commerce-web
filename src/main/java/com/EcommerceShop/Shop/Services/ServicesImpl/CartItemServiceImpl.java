@@ -2,12 +2,11 @@ package com.EcommerceShop.Shop.Services.ServicesImpl;
 
 import com.EcommerceShop.Shop.DTO.request.CartItemCreateRequest;
 import com.EcommerceShop.Shop.DTO.response.CartItemResponse;
-import com.EcommerceShop.Shop.DTO.response.CartResponse;
 import com.EcommerceShop.Shop.Entity.Cart;
 import com.EcommerceShop.Shop.Entity.CartItem;
 import com.EcommerceShop.Shop.Entity.Product;
 import com.EcommerceShop.Shop.Exception.AppException;
-import com.EcommerceShop.Shop.Exception.ErrorCode;
+import com.EcommerceShop.Shop.Enums.ErrorCode;
 import com.EcommerceShop.Shop.Mapper.CartItemMapper;
 import com.EcommerceShop.Shop.Repository.CartItemRepository;
 import com.EcommerceShop.Shop.Repository.CartRepository;

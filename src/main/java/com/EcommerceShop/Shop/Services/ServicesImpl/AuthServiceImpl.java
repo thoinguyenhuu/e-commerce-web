@@ -7,7 +7,7 @@ import com.EcommerceShop.Shop.DTO.response.AuthenticateResponse;
 import com.EcommerceShop.Shop.Entity.BlacklistToken;
 import com.EcommerceShop.Shop.Entity.User;
 import com.EcommerceShop.Shop.Exception.AppException;
-import com.EcommerceShop.Shop.Exception.ErrorCode;
+import com.EcommerceShop.Shop.Enums.ErrorCode;
 import com.EcommerceShop.Shop.Repository.BlacklistTokenRepository;
 import com.EcommerceShop.Shop.Repository.UserRepository;
 import com.EcommerceShop.Shop.Services.AuthService;
@@ -59,6 +59,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public AuthenticateResponse refresh(RefreshAccessTokenRequest request) throws ParseException {
+        if(blacklistTokenRepository.findById(request.getToken()).isPresent()){
+            throw new AppException(ErrorCode.INVALID_TOKEN) ;
+        }
         boolean isValid = true ;
         SignedJWT response ;
         try {
@@ -67,9 +70,6 @@ public class AuthServiceImpl implements AuthService {
             throw new AppException(ErrorCode.UNAUTHENTICATED) ;
         }
         User user = userRepository.findByUsername(response.getJWTClaimsSet().getSubject()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
-        if(blacklistTokenRepository.findById(request.getToken()).isPresent()){
-            throw new AppException(ErrorCode.INVALID_TOKEN) ;
-        }
         String access_token = generateToken(user,access_key,10,ChronoUnit.MINUTES) ;
         return AuthenticateResponse.builder().accessToken(access_token).build() ;
     }

@@ -1,4 +1,4 @@
-package com.EcommerceShop.Shop.Exception;
+package com.EcommerceShop.Shop.Enums;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,8 +15,8 @@ public enum ErrorCode {
     BAD_REQUEST("Bad Request", HttpStatus.BAD_REQUEST),
     INVALID_TOKEN("Invalid Token", HttpStatus.BAD_REQUEST),
     CATEGORY_EXISTED("Category existed", HttpStatus.BAD_REQUEST),
-    CATEGORY_NOT_FOUND("Category not found", HttpStatus.BAD_REQUEST),
-    PRODUCT_NOT_FOUND("Product not found", HttpStatus.BAD_REQUEST)
+    CATEGORY_NOT_FOUND("Category not found", HttpStatus.NOT_FOUND),
+    PRODUCT_NOT_FOUND("Product not found", HttpStatus.NOT_FOUND)
     ;
     ErrorCode(String message, HttpStatus httpStatus){
         this.code = httpStatus.value();

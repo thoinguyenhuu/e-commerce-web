@@ -1,7 +1,7 @@
 package com.EcommerceShop.Shop.Config;
 
 import com.EcommerceShop.Shop.DTO.response.ApiResponse;
-import com.EcommerceShop.Shop.Exception.ErrorCode;
+import com.EcommerceShop.Shop.Enums.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
