@@ -1,6 +1,29 @@
-# Hello
-## chạy ở local thì vào này http://localhost:8080/shop-api/swagger-ui/index.html để xem api hiện có 
-## swagger chưa config đầy đủ, xem tạm thôi
+# 🛒 Ecommerce Shop - Spring Boot Project
+
+Dự án web thương mại điện tử đơn giản sử dụng Spring Boot, Maven và MySQL.
+
+---
+
+## 🚀 Build & Run
+
+### ✅ Yêu cầu
+
+- Java 17+
+- Maven 3.8+
+- MySQL (nếu có sử dụng database)
+
+---
+
+### 🔧 Build Dự Án
+
+```bash
+mvn clean install
+
+mvn spring-boot:run
+```
+
+
+chạy ở local thì vào này http://localhost:8080/shop-api/swagger-ui/index.html để xem api hiện có, swagger chưa config đầy đủ, xem tạm thôi
 
 
 
