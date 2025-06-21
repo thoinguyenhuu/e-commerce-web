@@ -1,6 +1,6 @@
 package com.EcommerceShop.Shop.Config;
 
-import com.EcommerceShop.Shop.DTO.response.ApiResponse;
+import com.EcommerceShop.Shop.DTO.response.ApiResponseWrapper;
 import com.EcommerceShop.Shop.Enums.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
@@ -20,14 +20,14 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setStatus(errorCode.getCode());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        ApiResponse<?> apiResponse = ApiResponse.builder()
+        ApiResponseWrapper<?> apiResponseWrapper = ApiResponseWrapper.builder()
                 .status(errorCode.getCode())
                 .message(errorCode.getMessage())
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
+        response.getWriter().write(objectMapper.writeValueAsString(apiResponseWrapper));
         response.flushBuffer();
     }
 }

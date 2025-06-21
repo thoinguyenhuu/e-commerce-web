@@ -4,7 +4,6 @@ package com.EcommerceShop.Shop.DTO.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpStatus;
 
 
 @Data
@@ -13,7 +12,7 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponse<T> {
+public class ApiResponseWrapper<T> {
     @Builder.Default
     int status = 200;
     String message ;

@@ -1,7 +1,7 @@
 package com.EcommerceShop.Shop.Controllers;
 
 import com.EcommerceShop.Shop.DTO.request.CategoryCreateRequest;
-import com.EcommerceShop.Shop.DTO.response.ApiResponse;
+import com.EcommerceShop.Shop.DTO.response.ApiResponseWrapper;
 import com.EcommerceShop.Shop.DTO.response.CategoryResponse;
 import com.EcommerceShop.Shop.Services.CategoryService;
 import lombok.AccessLevel;
@@ -19,15 +19,16 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CategoryController {
     CategoryService categoryService ;
+
     @PostMapping
-    ApiResponse<CategoryResponse> create(@RequestBody CategoryCreateRequest request){
-        return ApiResponse.<CategoryResponse>builder()
+    ApiResponseWrapper<CategoryResponse> create(@RequestBody CategoryCreateRequest request){
+        return ApiResponseWrapper.<CategoryResponse>builder()
                 .result(categoryService.create(request)).build();
     }
 
     @GetMapping("/all")
-    ApiResponse<List<CategoryResponse>> getAll(){
-        return ApiResponse.<List<CategoryResponse>>builder()
+    ApiResponseWrapper<List<CategoryResponse>> getAll(){
+        return ApiResponseWrapper.<List<CategoryResponse>>builder()
                 .result(categoryService.getALl()).build() ;
     }
 }

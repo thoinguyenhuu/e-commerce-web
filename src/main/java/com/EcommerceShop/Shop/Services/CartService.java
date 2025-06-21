@@ -4,5 +4,7 @@ import com.EcommerceShop.Shop.DTO.response.CartResponse;
 import com.EcommerceShop.Shop.Entity.Cart;
 
 public interface CartService {
-    Cart create() ;
+    Cart create();
+
+    CartResponse getCartByUser(String username);
 }

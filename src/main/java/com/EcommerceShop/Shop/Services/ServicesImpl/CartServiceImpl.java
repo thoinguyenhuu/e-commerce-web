@@ -40,4 +40,9 @@ public class CartServiceImpl implements CartService {
         user.getCarts().add(cart) ;
         return cartRepository.save(cart) ;
     }
+
+    public CartResponse getCartByUser(String username){
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
+        return cartMapper.toCartResponse(cartRepository.findByUser(user)) ;
+    }
 }

@@ -29,7 +29,7 @@ public class SecurityConfig {
             "/user", "/auth/**"
     } ;
     String[] getPublic_endpoint_get = {
-            "/product/**", "/role/**"
+            "/product/**"
 
     } ;
     String[] all_endpoint = {

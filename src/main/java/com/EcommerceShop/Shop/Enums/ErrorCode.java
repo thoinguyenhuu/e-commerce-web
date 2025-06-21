@@ -16,7 +16,8 @@ public enum ErrorCode {
     INVALID_TOKEN("Invalid Token", HttpStatus.BAD_REQUEST),
     CATEGORY_EXISTED("Category existed", HttpStatus.BAD_REQUEST),
     CATEGORY_NOT_FOUND("Category not found", HttpStatus.NOT_FOUND),
-    PRODUCT_NOT_FOUND("Product not found", HttpStatus.NOT_FOUND)
+    PRODUCT_NOT_FOUND("Product not found", HttpStatus.NOT_FOUND),
+    ITEM_NOT_EXIST("Item not existed!", HttpStatus.NOT_FOUND)
     ;
     ErrorCode(String message, HttpStatus httpStatus){
         this.code = httpStatus.value();

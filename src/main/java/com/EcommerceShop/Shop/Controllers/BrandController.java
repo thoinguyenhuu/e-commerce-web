@@ -2,7 +2,7 @@ package com.EcommerceShop.Shop.Controllers;
 
 
 import com.EcommerceShop.Shop.DTO.request.BrandCreateRequest;
-import com.EcommerceShop.Shop.DTO.response.ApiResponse;
+import com.EcommerceShop.Shop.DTO.response.ApiResponseWrapper;
 import com.EcommerceShop.Shop.DTO.response.BrandResponse;
 import com.EcommerceShop.Shop.Services.BrandService;
 import lombok.AccessLevel;
@@ -21,8 +21,8 @@ public class BrandController {
     BrandService brandService ;
 
     @PostMapping
-    ApiResponse<BrandResponse> createBrand(@RequestBody BrandCreateRequest request){
-        return ApiResponse.<BrandResponse>builder()
+    ApiResponseWrapper<BrandResponse> createBrand(@RequestBody BrandCreateRequest request){
+        return ApiResponseWrapper.<BrandResponse>builder()
                 .result(brandService.create(request)).build();
     }
 }

@@ -3,7 +3,7 @@ package com.EcommerceShop.Shop.Controllers;
 import com.EcommerceShop.Shop.DTO.request.LoginRequest;
 import com.EcommerceShop.Shop.DTO.request.LogoutRequest;
 import com.EcommerceShop.Shop.DTO.request.RefreshAccessTokenRequest;
-import com.EcommerceShop.Shop.DTO.response.ApiResponse;
+import com.EcommerceShop.Shop.DTO.response.ApiResponseWrapper;
 import com.EcommerceShop.Shop.DTO.response.AuthenticateResponse;
 import com.EcommerceShop.Shop.Services.AuthService;
 import lombok.AccessLevel;
@@ -24,20 +24,20 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/login")
-    public ApiResponse<AuthenticateResponse> login(@RequestBody LoginRequest request){
-        return ApiResponse.<AuthenticateResponse>builder()
+    public ApiResponseWrapper<AuthenticateResponse> login(@RequestBody LoginRequest request){
+        return ApiResponseWrapper.<AuthenticateResponse>builder()
                 .result(authService.login(request)).build();
     }
 
     @PostMapping("/refresh-token")
-    public ApiResponse<AuthenticateResponse> refresh(@RequestBody RefreshAccessTokenRequest request) throws ParseException {
-        return ApiResponse.<AuthenticateResponse>builder()
+    public ApiResponseWrapper<AuthenticateResponse> refresh(@RequestBody RefreshAccessTokenRequest request) throws ParseException {
+        return ApiResponseWrapper.<AuthenticateResponse>builder()
                 .result(authService.refresh(request)).build();
     }
 
     @PostMapping("/logout")
-    public ApiResponse<Void> logout(@RequestBody LogoutRequest request){
+    public ApiResponseWrapper<Void> logout(@RequestBody LogoutRequest request){
         authService.logout(request);
-        return ApiResponse.<Void>builder().build();
+        return ApiResponseWrapper.<Void>builder().build();
     }
 }

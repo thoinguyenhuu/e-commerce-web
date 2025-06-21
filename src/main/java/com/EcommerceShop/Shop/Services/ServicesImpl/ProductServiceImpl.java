@@ -13,6 +13,7 @@ import com.EcommerceShop.Shop.Services.ProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -78,5 +79,10 @@ public class ProductServiceImpl implements ProductService {
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse updateProductDetail(String id, UpdateProductDetailRequest request){
         return ProductResponse.builder().build();
+    }
+
+    @Override
+    public List<ProductResponse> getProductPaging(Pageable pageable) {
+        return productRepository.findAll(pageable).stream().map(productMapper::toProductResponse).toList() ;
     }
 }

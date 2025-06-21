@@ -1,6 +1,6 @@
 package com.EcommerceShop.Shop.Exception;
 
-import com.EcommerceShop.Shop.DTO.response.ApiResponse;
+import com.EcommerceShop.Shop.DTO.response.ApiResponseWrapper;
 import com.EcommerceShop.Shop.Enums.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,24 +15,24 @@ import java.util.Arrays;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = RuntimeException.class)
-    ResponseEntity<ApiResponse<?>> handlingRuntimeException(RuntimeException e){
+    ResponseEntity<ApiResponseWrapper<?>> handlingRuntimeException(RuntimeException e){
         log.info(Arrays.toString(e.getStackTrace())) ;
         log.info(e.getMessage());
-        return  ResponseEntity.badRequest().body(ApiResponse.builder()
+        return  ResponseEntity.badRequest().body(ApiResponseWrapper.builder()
                 .status(ErrorCode.BAD_REQUEST.getCode())
                 .message(ErrorCode.BAD_REQUEST.getMessage()).build());
     }
     @ExceptionHandler(value = AccessDeniedException.class)
-    ResponseEntity<ApiResponse<?>> handlingAccessDeniedException(AccessDeniedException e){
+    ResponseEntity<ApiResponseWrapper<?>> handlingAccessDeniedException(AccessDeniedException e){
         return ResponseEntity.status(ErrorCode.UNAUTHORIZED.getCode())
-                .body(ApiResponse.builder()
+                .body(ApiResponseWrapper.builder()
                         .status(ErrorCode.UNAUTHORIZED.getCode())
                         .message(e.getMessage()).build()) ;
     }
     @ExceptionHandler(value = AppException.class)
-    ResponseEntity<ApiResponse<?>> handlingAppException(AppException exception){
+    ResponseEntity<ApiResponseWrapper<?>> handlingAppException(AppException exception){
         return ResponseEntity.status(exception.getErrorCode().getCode())
-                .body(ApiResponse.builder()
+                .body(ApiResponseWrapper.builder()
                         .status(exception.getErrorCode().getCode())
                         .message(exception.getMessage()).build()) ;
     }

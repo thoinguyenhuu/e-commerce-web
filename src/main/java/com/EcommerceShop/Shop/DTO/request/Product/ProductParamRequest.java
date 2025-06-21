@@ -8,5 +8,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductParamRequest {
-    private String category ;
+
 }
