@@ -17,7 +17,6 @@ public abstract class ProductMapper {
     public Product toProduct(ProductRequest request) {
         return Product.builder()
                 .name(request.getName())
-                .brand(new Brand())
                 .productDetails(new ArrayList<>())
                 .productCategories(new ArrayList<>())
                 .averageRate(0.0F)

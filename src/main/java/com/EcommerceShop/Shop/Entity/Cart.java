@@ -19,7 +19,7 @@ public class Cart {
     @Column(name = "Id")
     String id ;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     User user ;
 

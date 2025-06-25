@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -49,11 +50,13 @@ public class ProductServiceImpl implements ProductService {
                         .product(product)
                         .category(category).build()).toList();
         product.getProductCategories().addAll(productCategories);
-
-        Brand brand = brandRepository.findByName(request.getBrand()) ;
-        if(brand != null){
-            product.setBrand(brand);
-            brand.getProductList().add(product) ;
+        if(request.getBrand() != null){
+            Optional<Brand> brand = brandRepository.findByName(request.getBrand()) ;
+            if(brand.isPresent()){
+                product.setBrand(brand.get());
+                brand.get().getProductList().add(product) ;
+//            brandRepository.save(brand) ;
+            }
         }
         return productMapper.toProductResponse(productRepository.save(product));
     }
@@ -84,5 +87,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> getProductPaging(Pageable pageable) {
         return productRepository.findAll(pageable).stream().map(productMapper::toProductResponse).toList() ;
+    }
+
+    public void deleteProduct(String productId){
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND))  ;
+        productRepository.delete(product);
     }
 }

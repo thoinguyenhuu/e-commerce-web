@@ -17,11 +17,11 @@ public class ProductCategory {
     @Column(name = "Id")
     String id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "product_id")
     Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     Category category ;
 }

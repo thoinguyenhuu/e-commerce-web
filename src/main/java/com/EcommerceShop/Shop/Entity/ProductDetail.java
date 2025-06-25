@@ -28,10 +28,10 @@ public class ProductDetail {
     @Column(name = "quantity")
     int quantity ;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     Product product ;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "item", orphanRemoval = true, cascade = CascadeType.ALL)
     List<CartItem> cart  ;
 }

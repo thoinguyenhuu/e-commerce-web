@@ -32,22 +32,19 @@ public class Product {
     @Column(name = "average_rate")
     private Float averageRate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn (name = "brand_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name = "brand_id", nullable = true)
     private Brand brand ;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feedback> feedback ;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//    private List<CartItem> cartItems;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductDetail> productDetails ;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductCategory> productCategories ;
 }

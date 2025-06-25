@@ -19,7 +19,7 @@ public class Orders {
     @Column(name = "Id")
     String id ;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL , optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     User user ;
 

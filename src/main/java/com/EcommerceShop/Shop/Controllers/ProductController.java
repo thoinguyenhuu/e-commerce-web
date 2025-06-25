@@ -62,4 +62,12 @@ public class ProductController {
                 .result(productService.updateProductDetail(productId,request)).build() ;
     }
 
+    @DeleteMapping("/{productId}")
+    ApiResponseWrapper<?> deleteProduct(@PathVariable String productId){
+        productService.deleteProduct(productId);
+        return ApiResponseWrapper.builder()
+                .status(200)
+                .message(String.format("Product %s have been deleted", productId))
+                .build();
+    }
 }

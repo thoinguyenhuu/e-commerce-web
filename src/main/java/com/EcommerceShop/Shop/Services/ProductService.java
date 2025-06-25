@@ -21,4 +21,6 @@ public interface ProductService {
     public ProductResponse updateProductDetail(String id, UpdateProductDetailRequest request) ;
 
     public List<ProductResponse> getProductPaging(Pageable pageable) ;
+
+    void deleteProduct(String productId) ;
 }

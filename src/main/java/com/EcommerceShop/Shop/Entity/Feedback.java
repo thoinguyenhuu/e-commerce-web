@@ -23,15 +23,15 @@ public class Feedback {
     @Column(name = "description")
     String description ;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     User user ;
 
-    @OneToOne(mappedBy = "feedback",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "feedback")
     @JoinColumn(name = "order_id")
     Orders orders;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     Product product ;
 }

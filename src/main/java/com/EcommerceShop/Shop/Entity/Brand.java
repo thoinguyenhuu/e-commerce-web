@@ -30,7 +30,7 @@ public class Brand {
     @Column(name = "logo")
     String logoUrl ;
 
-    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Product> productList ;
 
 }
