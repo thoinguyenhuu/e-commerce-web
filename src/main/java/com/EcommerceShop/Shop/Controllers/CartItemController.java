@@ -4,14 +4,11 @@ import com.EcommerceShop.Shop.DTO.request.CartItemCreateRequest;
 import com.EcommerceShop.Shop.DTO.response.ApiResponseWrapper;
 import com.EcommerceShop.Shop.DTO.response.CartItemResponse;
 import com.EcommerceShop.Shop.Services.CartItemService;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/cart-item")
@@ -40,8 +37,8 @@ public class CartItemController {
                 .message("Item has been deleted")
                 .build();
     }
-    @GetMapping("all")
-    ApiResponseWrapper<List<CartItemResponse>> getListCartOfUser(){
-        return ApiResponseWrapper.<List<CartItemResponse>>builder().build();
-    }
+//    @GetMapping("all")
+//    ApiResponseWrapper<List<CartItemResponse>> getListCartOfUser(){
+//        return ApiResponseWrapper.<List<CartItemResponse>>builder().build();
+//    }
 }

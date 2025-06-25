@@ -1,6 +1,8 @@
 package com.EcommerceShop.Shop.Controllers;
 
+import com.EcommerceShop.Shop.DTO.request.Product.ProductDetailRequest;
 import com.EcommerceShop.Shop.DTO.request.Product.ProductRequest;
+import com.EcommerceShop.Shop.DTO.request.Product.UpdateProductDetailRequest;
 import com.EcommerceShop.Shop.DTO.response.ApiResponseWrapper;
 import com.EcommerceShop.Shop.DTO.response.ProductResponse;
 import com.EcommerceShop.Shop.Services.ProductService;
@@ -43,17 +45,21 @@ public class ProductController {
                 .result(productService.getProductPaging(pageable)).build();
     }
 
-    @PutMapping("/{id}/info")
-    ApiResponseWrapper<ProductResponse> updateProduct(@PathVariable String id, @RequestBody ProductRequest request){
-        return ApiResponseWrapper.<ProductResponse>builder()
-                .result(productService.updateProductInfo(id,request)).build() ;
+    @PostMapping("/{productId}/detail")
+    ApiResponseWrapper<ProductResponse> addADetailToProduct(@PathVariable String productId, @RequestBody ProductDetailRequest request){
+        return ApiResponseWrapper.<ProductResponse>builder().build();
     }
 
+    @PutMapping("/{productId}/info")
+    ApiResponseWrapper<ProductResponse> updateProduct(@PathVariable String productId, @RequestBody ProductRequest request){
+        return ApiResponseWrapper.<ProductResponse>builder()
+                .result(productService.updateProductInfo(productId,request)).build() ;
+    }
 
-//    @PutMapping("/detail/{id}")
-//    ApiResponse<ProductResponse> updateProductDetail(@PathVariable String id, @RequestBody UpdateProductDetailRequest request){
-//        return ApiResponse.<ProductResponse>builder()
-//                .result(productService.).build() ;
-//    }
+    @PutMapping("/{productId}/detail")
+    ApiResponseWrapper<ProductResponse> updateProductDetail(@PathVariable String productId, @RequestBody UpdateProductDetailRequest request){
+        return ApiResponseWrapper.<ProductResponse>builder()
+                .result(productService.updateProductDetail(productId,request)).build() ;
+    }
 
 }

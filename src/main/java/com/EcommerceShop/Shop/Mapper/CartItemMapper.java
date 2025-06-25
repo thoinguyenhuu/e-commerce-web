@@ -17,6 +17,7 @@ public abstract class CartItemMapper {
     public CartItemResponse toCartItemResponse(CartItem item){
         return CartItemResponse.builder()
                 .num(item.getNum())
-                .item(productMapper.toProductResponse(item.getProduct())).build();
+                .detail(productMapper.toProductDetailResponse(item.getItem()))
+                .item(productMapper.toProductResponse(item.getItem().getProduct())).build();
     }
 }

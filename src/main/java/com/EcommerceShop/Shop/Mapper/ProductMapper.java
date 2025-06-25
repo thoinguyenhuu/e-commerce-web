@@ -23,7 +23,6 @@ public abstract class ProductMapper {
                 .averageRate(0.0F)
                 .imageUrl(request.getImageUrl())
                 .description(request.getDescription())
-                .cartItems(new ArrayList<>())
                 .orderItems(new ArrayList<>())
                 .feedback(new ArrayList<>())
                 .build();

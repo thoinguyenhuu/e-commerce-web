@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Builder
 public class CartItemCreateRequest {
-    private String product_id ;
+    private String productId ;
+    private String detailId ;
     private int num ;
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -29,4 +31,7 @@ public class ProductDetail {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     Product product ;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL )
+    List<CartItem> cart  ;
 }

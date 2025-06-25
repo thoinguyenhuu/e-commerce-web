@@ -18,9 +18,10 @@ public class GlobalExceptionHandler {
     ResponseEntity<ApiResponseWrapper<?>> handlingRuntimeException(RuntimeException e){
         log.info(Arrays.toString(e.getStackTrace())) ;
         log.info(e.getMessage());
+        log.info("hehehe");
         return  ResponseEntity.badRequest().body(ApiResponseWrapper.builder()
                 .status(ErrorCode.BAD_REQUEST.getCode())
-                .message(ErrorCode.BAD_REQUEST.getMessage()).build());
+                .message(e.getMessage()).build());
     }
     @ExceptionHandler(value = AccessDeniedException.class)
     ResponseEntity<ApiResponseWrapper<?>> handlingAccessDeniedException(AccessDeniedException e){

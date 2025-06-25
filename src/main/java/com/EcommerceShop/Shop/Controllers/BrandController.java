@@ -8,10 +8,7 @@ import com.EcommerceShop.Shop.Services.BrandService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/brand")
@@ -24,5 +21,10 @@ public class BrandController {
     ApiResponseWrapper<BrandResponse> createBrand(@RequestBody BrandCreateRequest request){
         return ApiResponseWrapper.<BrandResponse>builder()
                 .result(brandService.create(request)).build();
+    }
+
+    @GetMapping("/all")
+    ApiResponseWrapper<BrandResponse> getAllBrand(){
+        return ApiResponseWrapper.<BrandResponse>builder().build() ;
     }
 }
