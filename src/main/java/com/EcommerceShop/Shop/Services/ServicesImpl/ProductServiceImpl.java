@@ -86,9 +86,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> getProductPaging(Pageable pageable) {
-        return productRepository.findAll(pageable).stream().map(productMapper::toProductResponse).toList() ;
+        return productRepository.findAll(pageable.isPaged() ? pageable : Pageable.unpaged() ).stream().map(productMapper::toProductResponse).toList() ;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(String productId){
         Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND))  ;
         productRepository.delete(product);

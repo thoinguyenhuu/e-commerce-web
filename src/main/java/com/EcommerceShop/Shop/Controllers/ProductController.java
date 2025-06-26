@@ -27,19 +27,19 @@ public class ProductController {
                 .result(productService.create(request)).build();
     }
 
-    @GetMapping("/all")
-    ApiResponseWrapper<List<ProductResponse>> getAllProduct(){
-        return ApiResponseWrapper.<List<ProductResponse>>builder()
-                .result(productService.getAllProducts()).build();
-    }
+//    @GetMapping("/all")
+//    ApiResponseWrapper<List<ProductResponse>> getAllProduct(){
+//        return ApiResponseWrapper.<List<ProductResponse>>builder()
+//                .result(productService.getAllProducts()).build();
+//    }
+
+//    @GetMapping
+//    ApiResponseWrapper<List<ProductResponse>> getByCategory(@RequestParam String category){
+//        return ApiResponseWrapper.<List<ProductResponse>>builder()
+//                .result(productService.getByCategory(category)).build() ;
+//    }
 
     @GetMapping
-    ApiResponseWrapper<List<ProductResponse>> getByCategory(@RequestParam String category){
-        return ApiResponseWrapper.<List<ProductResponse>>builder()
-                .result(productService.getByCategory(category)).build() ;
-    }
-
-    @GetMapping("/paging")
     ApiResponseWrapper<List<ProductResponse>> getProductsPaging(Pageable pageable){
         return ApiResponseWrapper.<List<ProductResponse>>builder()
                 .result(productService.getProductPaging(pageable)).build();

@@ -13,5 +13,7 @@ import java.util.List;
 public class CartResponse {
     String id ;
     String user_id ;
+    double totalPrice ;
+    int totalQuantity ;
     List<CartItemResponse> cartItems ;
 }

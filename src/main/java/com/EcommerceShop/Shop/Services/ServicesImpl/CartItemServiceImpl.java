@@ -44,7 +44,7 @@ public class CartItemServiceImpl implements CartItemService {
         }
         Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new AppException(ErrorCode.ITEM_NOT_EXIST)) ;
         List<CartItem> cartItemList = cartItemRepository.findByCart(cart) ;
-        Optional<CartItem> optionalCartItem = cartItemList.stream().filter(item -> item.getItem().getId().equals(request.getProductId())).findFirst();
+        Optional<CartItem> optionalCartItem = cartItemList.stream().filter(item -> item.getItem().getId().equals(request.getDetailId())).findFirst();
         if(optionalCartItem.isPresent()){
             optionalCartItem.get().setNum(optionalCartItem.get().getNum() + request.getNum()) ;
             return cartItemMapper.toCartItemResponse(cartItemRepository.save(optionalCartItem.get())) ;
@@ -58,12 +58,13 @@ public class CartItemServiceImpl implements CartItemService {
         return cartItemMapper.toCartItemResponse(cartItemRepository.save(cartItem)) ;
     }
 
-    public void deleteCartItem(String itemId){
-        CartItem item = cartItemRepository.findById(itemId).orElseThrow(() -> new AppException(ErrorCode.ITEM_NOT_EXIST)) ;
-        cartItemRepository.delete(item);
-        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
-        Cart cart = cartRepository.findByUser(user) ;
-        cart.getCartItems().remove(item) ;
+    public void deleteCartItem(String detailId){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName() ;
+        User user  = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
+        Cart cart = user.getCarts() ;
+        CartItem cartItem= cart.getCartItems().stream().filter(item -> item.getItem().getId().equals(detailId)).findFirst().orElseThrow(() -> new AppException(ErrorCode.ITEM_NOT_EXIST)) ;
+        cart.getCartItems().remove(cartItem) ;
+        cartItemRepository.delete(cartItem);
     }
 
     @Override

@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,13 +49,15 @@ public class AuthServiceImpl implements AuthService {
 
     public AuthenticateResponse login(LoginRequest request){
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
-
+        if(!user.getRole().toString().equals(request.getRole())){
+            throw new AppException(ErrorCode.UNAUTHORIZED) ;
+        }
         boolean authenticate = passwordEncoder.matches(request.getPassword(), user.getPassword()) ;
 
         if(!authenticate) throw new AppException(ErrorCode.UNAUTHENTICATED) ;
 
         return AuthenticateResponse.builder()
-                .accessToken(generateToken(user,access_key,10,ChronoUnit.MINUTES))
+                .accessToken(generateToken(user,access_key,60,ChronoUnit.MINUTES))
                 .refreshToken(generateToken(user,refresh_key,7,ChronoUnit.DAYS)).build();
     }
 
@@ -63,14 +66,14 @@ public class AuthServiceImpl implements AuthService {
             throw new AppException(ErrorCode.INVALID_TOKEN) ;
         }
         boolean isValid = true ;
-        SignedJWT response ;
+        Pair<SignedJWT,Date>  response ;
         try {
-            response =  verifyToken(request.getToken(), true) ;
+            response  =  verifyToken(request.getToken(), true) ;
         } catch (ParseException | JOSEException e){
             throw new AppException(ErrorCode.UNAUTHENTICATED) ;
         }
-        User user = userRepository.findByUsername(response.getJWTClaimsSet().getSubject()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
-        String access_token = generateToken(user,access_key,10,ChronoUnit.MINUTES) ;
+        User user = userRepository.findByUsername(response.getLeft().getJWTClaimsSet().getSubject()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
+        String access_token = generateToken(user,access_key,60,ChronoUnit.MINUTES) ;
         return AuthenticateResponse.builder().accessToken(access_token).build() ;
     }
 
@@ -83,21 +86,23 @@ public class AuthServiceImpl implements AuthService {
         catch (Exception e){
             valid = false;
         }
-
         return valid ;
     }
 
     public void logout(LogoutRequest request) {
+        Pair<SignedJWT,Date> x ;
         try{
-            verifyToken(request.getToken(), true) ;
+             x = verifyToken(request.getToken(), true) ;
         }
         catch (Exception e){
             throw new AppException(ErrorCode.INVALID_TOKEN) ;
         }
-        blacklistTokenRepository.save(BlacklistToken.builder().token(request.getToken()).build()) ;
+        blacklistTokenRepository.save(BlacklistToken.builder()
+                .token(request.getToken())
+                .expired_date(x.getRight()).build()) ;
     }
 
-    private SignedJWT verifyToken(String token, boolean isRefresh) throws JOSEException, ParseException {
+    private Pair<SignedJWT,Date> verifyToken(String token, boolean isRefresh) throws JOSEException, ParseException {
         JWSVerifier jwsVerifier = (!isRefresh) ? new MACVerifier(access_key.getBytes()) : new MACVerifier(refresh_key.getBytes()) ;
 
         SignedJWT signedJWT = SignedJWT.parse(token) ;
@@ -107,7 +112,7 @@ public class AuthServiceImpl implements AuthService {
         if(!(verify && date.after(new Date()))){
             throw new AppException(ErrorCode.UNAUTHENTICATED) ;
         }
-        return signedJWT ;
+        return Pair.of(signedJWT,date);
     }
 
     private String generateToken(User user, String key , int time, ChronoUnit chronoUnit){

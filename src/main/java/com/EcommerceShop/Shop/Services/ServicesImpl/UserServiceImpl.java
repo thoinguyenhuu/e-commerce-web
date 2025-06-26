@@ -63,4 +63,8 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
+    public void deleteUser(String userId){
+        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
+        userRepository.delete(user);
+    }
 }

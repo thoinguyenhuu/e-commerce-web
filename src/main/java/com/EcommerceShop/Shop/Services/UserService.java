@@ -9,11 +9,12 @@ import java.util.HashSet;
 import java.util.List;
 
 public interface UserService {
-    public UserResponse createUser(UserCreationRequest request) ;
+    UserResponse createUser(UserCreationRequest request) ;
 
-    public UserResponse updateUser(String id, UserUpdateRequest request) ;
+    UserResponse updateUser(String id, UserUpdateRequest request) ;
 
-    public List<UserResponse> getAllUsers() ;
+    List<UserResponse> getAllUsers() ;
 
-    public UserResponse getMyInfo(String id) ;
+    UserResponse getMyInfo(String id) ;
+    void deleteUser(String userId) ;
 }

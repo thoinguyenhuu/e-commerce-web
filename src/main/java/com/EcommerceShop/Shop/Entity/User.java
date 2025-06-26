@@ -45,8 +45,16 @@ public class User {
     @Column(name = "role")
     Role role ;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Cart> carts ;
+
+
+    // ////////////////////////////////////////////////////
+    // //        //                                       //
+    // //      //   /                                      //
+    // //       ////                                        //
+    // ///////////////////////////////////////////////////
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    Cart carts ;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Orders> orders  ;
@@ -54,4 +62,10 @@ public class User {
     @OneToMany(mappedBy = "user" , cascade =  CascadeType.ALL, orphanRemoval = true)
     List<Feedback> feedbacks ;
 
+
+    // ////////////////////////////////////////////////////
+    // //                                               //
+    // //                                               //
+    // //                                               //
+    // ///////////////////////////////////////////////////
 }

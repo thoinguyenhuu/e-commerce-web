@@ -34,10 +34,7 @@ public class CartServiceImpl implements CartService {
                 .cartItems(new ArrayList<>())
                 .user(user)
                 .build();
-        if(user.getCarts() == null){
-            user.setCarts(new ArrayList<>());
-        }
-        user.getCarts().add(cart) ;
+        user.setCarts(cart);
         return cartRepository.save(cart) ;
     }
 

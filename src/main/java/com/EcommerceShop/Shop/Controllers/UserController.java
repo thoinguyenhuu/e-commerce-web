@@ -48,4 +48,13 @@ public class UserController {
                 .build();
     }
 
+
+    // Chưa test
+    @DeleteMapping("/{userId}")
+    ApiResponseWrapper<?> deleteUser(@PathVariable String userId){
+
+        return ApiResponseWrapper.builder()
+                .status(200)
+                .message(String.format("User %s have been deleted", userId)).build();
+    }
 }
