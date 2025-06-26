@@ -28,10 +28,10 @@ public class UserController {
         return ApiResponseWrapper.<List<UserResponse>>builder()
                 .result(userService.getAllUsers()).build();
     }
-    @GetMapping("/{userId}")
-    ApiResponseWrapper<UserResponse> getMyInfo(@PathVariable String userId){
+    @GetMapping("/me")
+    ApiResponseWrapper<UserResponse> getMyInfo(){
         return ApiResponseWrapper.<UserResponse>builder()
-                .result(userService.getMyInfo(userId))
+                .result(userService.getMyInfo())
                 .build();
     }
     @PostMapping
