@@ -23,7 +23,7 @@ public class ProductDetail {
     String info ;
 
     @Column(name = "price")
-    float price ;
+    double price ;
 
     @Column(name = "quantity")
     int quantity ;
