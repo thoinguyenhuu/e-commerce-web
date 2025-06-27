@@ -1,5 +1,6 @@
 package com.EcommerceShop.Shop.Services.ServicesImpl;
 
+import com.EcommerceShop.Shop.DTO.request.Product.ProductDetailRequest;
 import com.EcommerceShop.Shop.DTO.request.Product.ProductRequest;
 import com.EcommerceShop.Shop.DTO.request.Product.UpdateProductDetailRequest;
 import com.EcommerceShop.Shop.DTO.response.ProductResponse;
@@ -65,6 +66,18 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll().stream().map(productMapper::toProductResponse).toList();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    public ProductResponse addADetailToProduct(String productId, ProductDetailRequest request) {
+        Product product  = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
+        ProductDetail productDetail = ProductDetail.builder()
+                .info(request.getInfo())
+                .quantity(request.getQuantity())
+                .price(request.getPrice())
+                .product(product).build();
+        product.getProductDetails().add(productDetail) ;
+        return productMapper.toProductResponse(productRepository.save(product)) ;
+    }
+
     public List<ProductResponse> getByCategory(String name) {
         Category category = categoryService.getByName(name) ;
         return category.getProductCategories().stream()
@@ -80,8 +93,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public ProductResponse updateProductDetail(String id, UpdateProductDetailRequest request){
-        return ProductResponse.builder().build();
+    public ProductResponse updateProductDetail(String productId, UpdateProductDetailRequest request){
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
+        ProductDetail productDetail = product.getProductDetails().stream().filter(detail -> detail.getId().equals(request.getId())).findFirst().orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
+
+        if (request.getInfo() != null) productDetail.setInfo(request.getInfo());
+        if (request.getPrice() != null) productDetail.setPrice(request.getPrice());
+        if (request.getQuantity() != null) productDetail.setQuantity(request.getQuantity());
+
+        return productMapper.toProductResponse(product) ;
     }
 
     @Override
@@ -94,4 +114,5 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND))  ;
         productRepository.delete(product);
     }
+
 }

@@ -10,7 +10,7 @@ public class UpdateProductDetailRequest {
 
     private String info ;
 
-    private float price ;
+    private Double price ;
 
-    private int quantity ;
+    private Integer quantity ;
 }

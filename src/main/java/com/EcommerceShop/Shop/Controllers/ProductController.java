@@ -47,7 +47,8 @@ public class ProductController {
 
     @PostMapping("/{productId}/detail")
     ApiResponseWrapper<ProductResponse> addADetailToProduct(@PathVariable String productId, @RequestBody ProductDetailRequest request){
-        return ApiResponseWrapper.<ProductResponse>builder().build();
+        return ApiResponseWrapper.<ProductResponse>builder()
+                .result(productService.addADetailToProduct(productId,request)).build();
     }
 
     @PutMapping("/{productId}/info")
