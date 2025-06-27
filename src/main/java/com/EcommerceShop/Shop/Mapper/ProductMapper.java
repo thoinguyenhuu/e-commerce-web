@@ -39,6 +39,8 @@ public abstract class ProductMapper {
     public abstract ProductDetailResponse toProductDetailResponse(ProductDetail productDetail) ;
 
     @Mapping(target = "brand", ignore = true)
+    @Mapping(target = "productCategories", ignore = true)
+    @Mapping(target = "productDetails", ignore = true )
     public abstract void update(@MappingTarget Product product, ProductRequest productRequest) ;
 
 }

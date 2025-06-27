@@ -85,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
     }
 
-    @PreAuthorize("hasRole('ADMIN)")
+    @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse updateProductInfo(String id, ProductRequest request){
         Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
         productMapper.update(product,request);
