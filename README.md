@@ -14,6 +14,17 @@ Dự án web thương mại điện tử đơn giản sử dụng Spring Boot, M
 
 ---
 
+## ⚙️ Công nghệ sử dụng
+
+- 💻 Spring Boot 3+
+- 🔐 Spring Security + JWT
+- 🛢️ Hibernate / JPA
+- 🐬 MySQL 
+- 🛠️ MapStruct
+- 🌐 Swagger 3 (OpenAPI)
+- 🐳 Docker (optional)
+
+---
 ### 🔧 Build Dự Án
 
 ```bash
@@ -21,12 +32,28 @@ mvn clean install
 
 mvn spring-boot:run
 ```
-
-
-chạy ở local thì vào này http://localhost:8080/shop-api/swagger-ui/index.html để xem api hiện có, swagger chưa config đầy đủ, xem tạm thôi
-
-
-
+## 📁 Cấu trúc thư mục chính
+```
+src/
+└── main/
+    ├── java/
+    │   └── com/
+    │       └── EcommerceShop/
+    │           └── Shop/
+    │               ├── auth/         # Xác thực và phân quyền người dùng
+    │               ├── exception/    # Xử lý ngoại lệ chung
+    │               ├── user/         # Thông tin và quản lý người dùng
+    │               ├── product/      # Sản phẩm và chi tiết sản phẩm
+    │               ├── category/     # Danh mục sản phẩm
+    │               ├── brand/        # Thương hiệu
+    │               ├── cart/         # Giỏ hàng
+    │               ├── order/        # Đặt hàng và quản lý đơn hàng
+    │               ├── util/         # DTO chung, hàm tiện ích
+    │               ├── config/       # Cấu hình bảo mật, Swagger, bean,...
+    │               └── ShopApplication.java
+    └── resources/                   # File cấu hình, template, static
+└── test/                            # Test unit và integration
+```
 # Database_shop_basic documentation
 ## Summary
 
