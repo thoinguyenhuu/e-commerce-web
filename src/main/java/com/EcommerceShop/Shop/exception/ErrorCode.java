@@ -18,7 +18,9 @@ public enum ErrorCode {
     CATEGORY_NOT_FOUND("Category not found", HttpStatus.NOT_FOUND),
     PRODUCT_NOT_FOUND("Product not found", HttpStatus.NOT_FOUND),
     ITEM_NOT_EXIST("Item not existed!", HttpStatus.NOT_FOUND),
-    BRAND_NOT_FOUND("Brand not found!", HttpStatus.NOT_FOUND)
+    BRAND_NOT_FOUND("Brand not found!", HttpStatus.NOT_FOUND),
+    ADDRESS_ID_WRONG("AddressId wrong!", HttpStatus.NOT_FOUND),
+    CLOUDINARY_ERROR("Lỗi up load lên cloudinary", HttpStatus.BAD_REQUEST)
     ;
     ErrorCode( String message, HttpStatus httpStatus){
         this.code = httpStatus.value();

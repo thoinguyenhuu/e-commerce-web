@@ -23,7 +23,7 @@ public class CartController {
     ApiResponseWrapper<CartResponse> getCartOfUser(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName() ;
         return ApiResponseWrapper.<CartResponse>builder()
-                .result(cartService.getCartByUser(username)).build();
+                .data(cartService.getCartByUser(username)).build();
     }
 
 }

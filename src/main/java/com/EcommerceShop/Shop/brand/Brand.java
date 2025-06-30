@@ -18,9 +18,9 @@ import java.util.List;
 public class Brand  implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    String id ;
+    Long id ;
 
     @Column(name = "name")
     String name ;

@@ -1,4 +1,4 @@
-package com.EcommerceShop.Shop.config;
+package com.EcommerceShop.Shop.util.config;
 
 import com.EcommerceShop.Shop.util.ApiResponseWrapper;
 import com.EcommerceShop.Shop.exception.ErrorCode;
@@ -21,7 +21,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         ApiResponseWrapper<?> apiResponseWrapper = ApiResponseWrapper.builder()
-                .status(errorCode.getCode())
+                .code(errorCode.getCode())
                 .message(errorCode.getMessage())
                 .build();
 

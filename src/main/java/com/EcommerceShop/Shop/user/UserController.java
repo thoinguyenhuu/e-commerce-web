@@ -25,33 +25,33 @@ public class UserController {
     @GetMapping
     ApiResponseWrapper<List<UserResponse>> getAllUser(){
         return ApiResponseWrapper.<List<UserResponse>>builder()
-                .result(userService.getAllUsers()).build();
+                .data(userService.getAllUsers()).build();
     }
 
     @GetMapping("/me")
     ApiResponseWrapper<UserResponse> getMyInfo(){
         return ApiResponseWrapper.<UserResponse>builder()
-                .result(userService.getMyInfo())
+                .data(userService.getMyInfo())
                 .build();
     }
 
     @GetMapping("/{userId}")
     ApiResponseWrapper<UserResponse> getUser(@PathVariable String userId){
         return ApiResponseWrapper.<UserResponse>builder()
-                .result(userService.getUser(userId)).build();
+                .data(userService.getUser(userId)).build();
     }
 
     @PostMapping
     ApiResponseWrapper<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request){
         return ApiResponseWrapper.<UserResponse>builder()
-                .result(userService.createUser(request))
+                .data(userService.createUser(request))
                 .build();
     }
 
     @PutMapping("/{userId}")
     ApiResponseWrapper<UserResponse> updateUser(@PathVariable String userId, @RequestBody @Valid UserUpdateRequest request){
         return ApiResponseWrapper.<UserResponse>builder()
-                .result(userService.updateUser(userId, request))
+                .data(userService.updateUser(userId, request))
                 .build();
     }
 
@@ -60,7 +60,7 @@ public class UserController {
     ApiResponseWrapper<?> deleteUser(@PathVariable String userId){
         userService.deleteUser(userId);
         return ApiResponseWrapper.builder()
-                .status(200)
+                .code(200)
                 .message(String.format("User %s have been deleted", userId)).build();
     }
 }

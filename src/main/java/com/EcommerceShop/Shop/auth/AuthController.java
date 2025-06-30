@@ -3,7 +3,6 @@ package com.EcommerceShop.Shop.auth;
 import com.EcommerceShop.Shop.auth.dto.request.LoginRequest;
 import com.EcommerceShop.Shop.auth.dto.request.LogoutRequest;
 import com.EcommerceShop.Shop.auth.dto.request.RefreshAccessTokenRequest;
-import com.EcommerceShop.Shop.user.dto.response.UserResponse;
 import com.EcommerceShop.Shop.util.ApiResponseWrapper;
 import com.EcommerceShop.Shop.auth.dto.response.AuthenticateResponse;
 import lombok.AccessLevel;
@@ -22,13 +21,13 @@ public class AuthController {
     @PostMapping("/login")
     public ApiResponseWrapper<AuthenticateResponse> login(@RequestBody LoginRequest request){
         return ApiResponseWrapper.<AuthenticateResponse>builder()
-                .result(authService.login(request)).build();
+                .data(authService.login(request)).build();
     }
 
     @PostMapping("/refresh-token")
     public ApiResponseWrapper<AuthenticateResponse> refresh(@RequestBody RefreshAccessTokenRequest request) throws ParseException {
         return ApiResponseWrapper.<AuthenticateResponse>builder()
-                .result(authService.refresh(request)).build();
+                .data(authService.refresh(request)).build();
     }
 
     @PostMapping("/logout")

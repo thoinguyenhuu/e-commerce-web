@@ -20,20 +20,20 @@ public class CartItemController {
     @PostMapping
     ApiResponseWrapper<CartItemResponse> createCartItem(@RequestBody CartItemCreateRequest request){
         return ApiResponseWrapper.<CartItemResponse>builder()
-                .result(cartItemService.create(request)).build();
+                .data(cartItemService.create(request)).build();
     }
 
     @PutMapping("/{itemId}")
     ApiResponseWrapper<CartItemResponse> updateCartItem(@PathVariable String itemId){
         return ApiResponseWrapper.<CartItemResponse>builder()
-                .result(cartItemService.update(itemId)).build();
+                .data(cartItemService.update(itemId)).build();
     }
 
     @DeleteMapping("/{itemId}")
     ApiResponseWrapper<?> deleteCartItem(@PathVariable String itemId){
         cartItemService.deleteCartItem(itemId);
         return ApiResponseWrapper.builder()
-                .status(200)
+                .code(200)
                 .message("Item has been deleted")
                 .build();
     }

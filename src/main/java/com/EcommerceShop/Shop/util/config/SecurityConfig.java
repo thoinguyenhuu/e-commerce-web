@@ -1,4 +1,4 @@
-package com.EcommerceShop.Shop.config;
+package com.EcommerceShop.Shop.util.config;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,10 @@ public class SecurityConfig {
             "/user", "/auth/**"
     } ;
     String[] getPublic_endpoint_get = {
-            "/product/**"
+            "/product/**",
+            "/category/all",
+            "/brand/all",
+            "/address"
     } ;
     String[] all_endpoint = {
             "/swagger-ui/**",

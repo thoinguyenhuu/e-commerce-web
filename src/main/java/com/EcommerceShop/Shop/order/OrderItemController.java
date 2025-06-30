@@ -21,7 +21,7 @@ public class OrderItemController {
     @PostMapping
     ApiResponseWrapper<OrderResponse> createOrderItem(@RequestBody OrderRequest request){
         return ApiResponseWrapper.<OrderResponse>builder()
-                .result(orderService.createOrderItem(request)).build();
+                .data(orderService.createOrderItem(request)).build();
     }
 
 }

@@ -24,44 +24,44 @@ public class ProductController {
     @GetMapping
     ApiResponseWrapper<List<ProductResponse>> getProductsPaging(Pageable pageable){
         return ApiResponseWrapper.<List<ProductResponse>>builder()
-                .result(productService.getProductPaging(pageable)).build();
+                .data(productService.getProductPaging(pageable)).build();
     }
 
     @GetMapping("/{productId}")
     ApiResponseWrapper<ProductResponse> getProductById(@PathVariable String productId){
         return ApiResponseWrapper.<ProductResponse>builder()
-                .result(productService.getProductById(productId)).build();
+                .data(productService.getProductById(productId)).build();
     }
 
     @PostMapping
     ApiResponseWrapper<ProductResponse> create(@RequestBody ProductRequest request){
         return ApiResponseWrapper.<ProductResponse>builder()
-                .result(productService.create(request)).build();
+                .data(productService.create(request)).build();
     }
 
     @PostMapping("/{productId}/detail")
     ApiResponseWrapper<ProductResponse> addADetailToProduct(@PathVariable String productId, @RequestBody ProductDetailRequest request){
         return ApiResponseWrapper.<ProductResponse>builder()
-                .result(productService.addADetailToProduct(productId,request)).build();
+                .data(productService.addADetailToProduct(productId,request)).build();
     }
 
     @PutMapping("/{productId}/info")
     ApiResponseWrapper<ProductResponse> updateProduct(@PathVariable String productId, @RequestBody ProductRequest request){
         return ApiResponseWrapper.<ProductResponse>builder()
-                .result(productService.updateProductInfo(productId,request)).build() ;
+                .data(productService.updateProductInfo(productId,request)).build() ;
     }
 
     @PutMapping("/{productId}/detail")
     ApiResponseWrapper<ProductResponse> updateProductDetail(@PathVariable String productId, @RequestBody UpdateProductDetailRequest request){
         return ApiResponseWrapper.<ProductResponse>builder()
-                .result(productService.updateProductDetail(productId,request)).build() ;
+                .data(productService.updateProductDetail(productId,request)).build() ;
     }
 
     @DeleteMapping("/{productId}")
     ApiResponseWrapper<?> deleteProduct(@PathVariable String productId){
         productService.deleteProduct(productId);
         return ApiResponseWrapper.builder()
-                .status(200)
+                .code(200)
                 .message(String.format("Product %s have been deleted", productId))
                 .build();
     }

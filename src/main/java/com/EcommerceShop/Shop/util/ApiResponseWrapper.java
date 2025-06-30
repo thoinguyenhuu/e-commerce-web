@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponseWrapper<T> {
     @Builder.Default
-    int status = 200;
+    int code = 200;
     String message ;
-    T result ;
+    T data;
 }

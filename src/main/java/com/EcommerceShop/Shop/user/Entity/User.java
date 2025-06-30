@@ -1,5 +1,6 @@
 package com.EcommerceShop.Shop.user.Entity;
 
+import com.EcommerceShop.Shop.address.Address;
 import com.EcommerceShop.Shop.cart.Entity.Cart;
 import com.EcommerceShop.Shop.feedback.Feedback;
 import com.EcommerceShop.Shop.order.Entity.Orders;
@@ -15,7 +16,7 @@ import java.util.*;
 
 
 @Data
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -65,7 +66,8 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user" , cascade =  CascadeType.ALL, orphanRemoval = true)
     List<Feedback> feedbacks ;
 
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    Set<Address> addresses ;
     // ////////////////////////////////////////////////////
     // //                                               //
     // //                                               //

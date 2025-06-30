@@ -19,21 +19,21 @@ public class GlobalExceptionHandler {
         log.info(Arrays.toString(e.getStackTrace())) ;
         log.info(e.getMessage());
         return  ResponseEntity.badRequest().body(ApiResponseWrapper.builder()
-                .status(ErrorCode.BAD_REQUEST.getCode())
-                .message(e.getMessage()).build());
+                .code(ErrorCode.BAD_REQUEST.getCode())
+                .message(e.getMessage() ).build());
     }
     @ExceptionHandler(value = AccessDeniedException.class)
     ResponseEntity<ApiResponseWrapper<?>> handlingAccessDeniedException(AccessDeniedException e){
         return ResponseEntity.status(ErrorCode.UNAUTHORIZED.getCode())
                 .body(ApiResponseWrapper.builder()
-                        .status(ErrorCode.UNAUTHORIZED.getCode())
+                        .code(ErrorCode.UNAUTHORIZED.getCode())
                         .message(e.getMessage()).build()) ;
     }
     @ExceptionHandler(value = AppException.class)
     ResponseEntity<ApiResponseWrapper<?>> handlingAppException(AppException exception){
         return ResponseEntity.status(exception.getErrorCode().getCode())
                 .body(ApiResponseWrapper.builder()
-                        .status(exception.getErrorCode().getCode())
+                        .code(exception.getErrorCode().getCode())
                         .message(exception.getMessage()).build()) ;
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
         String error = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return ResponseEntity.status(ErrorCode.BAD_REQUEST.getCode())
                 .body(ApiResponseWrapper.builder()
-                        .status(ErrorCode.BAD_REQUEST.getCode())
+                        .code(ErrorCode.BAD_REQUEST.getCode())
                         .message(error).build()) ;
     }
 

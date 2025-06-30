@@ -5,7 +5,6 @@ import com.EcommerceShop.Shop.util.ApiResponseWrapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.aspectj.lang.annotation.DeclareError;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,7 +17,7 @@ public class BrandController {
     @PostMapping
     ApiResponseWrapper<BrandResponse> createBrand(@RequestBody BrandRequest request){
         return ApiResponseWrapper.<BrandResponse>builder()
-                .result(brandService.create(request)).build();
+                .data(brandService.create(request)).build();
     }
 
     @GetMapping("/all")
@@ -29,14 +28,14 @@ public class BrandController {
     @PutMapping("/{brandId}")
     ApiResponseWrapper<BrandResponse> updateBrand(@PathVariable String brandId, BrandRequest request){
         return ApiResponseWrapper.<BrandResponse>builder()
-                .result(brandService.updateBrand(brandId,request)).build();
+                .data(brandService.updateBrand(brandId,request)).build();
     }
 
     @DeleteMapping("/{brandId}")
     ApiResponseWrapper<?> deleteBrand(@PathVariable String brandId){
         brandService.deleteBrand(brandId);
         return ApiResponseWrapper.builder()
-                .status(200)
+                .code(200)
                 .message("Brand has been deleted!").build();
     }
 }

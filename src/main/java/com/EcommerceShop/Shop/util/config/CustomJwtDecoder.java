@@ -1,4 +1,4 @@
-package com.EcommerceShop.Shop.config;
+package com.EcommerceShop.Shop.util.config;
 
 
 import com.EcommerceShop.Shop.auth.AuthService;

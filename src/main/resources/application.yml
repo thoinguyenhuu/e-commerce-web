@@ -16,9 +16,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
 jwt:
   access_key: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
   refresh_key : "8u)=}s@pq9_o4&mv]1ezze&c}{!?]$hjt@xz&*((bc7{34&]n8@v?cunwetpwm?["
-  valid-duration: 3600 # in second
-  refreshable-duration: 36000 # in seconds
+
+ghn:
+  token: "fe055076-5488-11f0-ba75-a6ca4deb76d8"
+  shop : "5862741"
+  baseUrl : "https://online-gateway.ghn.vn/shiip/public-api"
+#  valid-duration: 3600 # in second
+#  refreshable-duration: 36000 # in seconds
+cloud:
+  link : "cloudinary://315416796683968:ihgzCqv84qAWXq_i8xZHXJbWJKQ@dazdwbzdw"

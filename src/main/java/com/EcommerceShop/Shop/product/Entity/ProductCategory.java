@@ -16,9 +16,9 @@ import java.io.Serializable;
 @Table(name = "product_category")
 public class ProductCategory  implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
-    String id;
+    Long id;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

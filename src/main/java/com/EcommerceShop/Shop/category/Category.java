@@ -17,9 +17,9 @@ import java.util.List;
 @Table(name = "category")
 public class Category  implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
-    String id;
+    Long id;
 
     @Column(name = "name")
     String name ;

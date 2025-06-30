@@ -20,9 +20,9 @@ import java.util.List;
 @Table(name = "product")
 public class Product implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
-    private String id;
+    private Long id;
 
     @Column(name = "name")
     private String name;

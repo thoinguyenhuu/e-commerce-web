@@ -17,9 +17,9 @@ import java.util.List;
 @Table(name = "product_detail")
 public class ProductDetail  implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
-    String id ;
+    Long id ;
 
     @Column(name = "info")
     String info ;

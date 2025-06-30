@@ -23,26 +23,26 @@ public class CategoryController {
     @PostMapping
     ApiResponseWrapper<CategoryResponse> create(@RequestBody CategoryRequest request){
         return ApiResponseWrapper.<CategoryResponse>builder()
-                .result(categoryService.create(request)).build();
+                .data(categoryService.create(request)).build();
     }
 
     @GetMapping("/all")
     ApiResponseWrapper<List<CategoryResponse>> getAll(){
         return ApiResponseWrapper.<List<CategoryResponse>>builder()
-                .result(categoryService.getALl()).build() ;
+                .data(categoryService.getALl()).build() ;
     }
 
     @PutMapping("/{categoryId}")
     ApiResponseWrapper<CategoryResponse> updateCategory(@PathVariable String categoryId, @RequestBody CategoryRequest request){
         return ApiResponseWrapper.<CategoryResponse>builder()
-                .result(categoryService.updateCategory(categoryId,request)).build();
+                .data(categoryService.updateCategory(categoryId,request)).build();
     }
 
     @DeleteMapping("/{categoryId}")
     ApiResponseWrapper<?> deleteCategory(@PathVariable String categoryId){
         categoryService.deleteCategory(categoryId);
         return ApiResponseWrapper.builder()
-                .status(200)
+                .code(200)
                 .message("Category has been deleted!").build();
     }
 
