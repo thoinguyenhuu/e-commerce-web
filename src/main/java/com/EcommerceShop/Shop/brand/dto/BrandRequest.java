@@ -1,4 +1,4 @@
-package com.EcommerceShop.Shop.brand;
+package com.EcommerceShop.Shop.brand.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;

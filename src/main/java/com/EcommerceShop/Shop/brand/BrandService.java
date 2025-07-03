@@ -1,6 +1,8 @@
 package com.EcommerceShop.Shop.brand;
 
 
+import com.EcommerceShop.Shop.brand.dto.BrandRequest;
+import com.EcommerceShop.Shop.brand.dto.BrandResponse;
 import com.EcommerceShop.Shop.exception.AppException;
 import com.EcommerceShop.Shop.exception.ErrorCode;
 import lombok.AccessLevel;
@@ -41,7 +43,7 @@ public class BrandService {
                 .description(brand.getDescription()).build()).toList() ;
     }
 
-    public BrandResponse updateBrand(String brandId, BrandRequest request){
+    public BrandResponse updateBrand(Long brandId, BrandRequest request){
         Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND)) ;
         if (request.getDescription() != null) brand.setDescription(request.getDescription());
         if (request.getLogoUrl() != null) brand.setLogoUrl(request.getLogoUrl());
@@ -54,7 +56,7 @@ public class BrandService {
                 .build() ;
     }
 
-    public void deleteBrand(String brandId){
+    public void deleteBrand(Long brandId){
         Brand brand = brandRepository.findById(brandId).orElseThrow(()-> new AppException(ErrorCode.BRAND_NOT_FOUND)) ;
         brandRepository.delete(brand);
     }

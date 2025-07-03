@@ -41,14 +41,14 @@ public class CategoryService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public CategoryResponse updateCategory(String categoryId, CategoryRequest request){
+    public CategoryResponse updateCategory(Long categoryId, CategoryRequest request){
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND)) ;
         categoryMapper.update(category,request);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category)) ;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteCategory(String categoryId){
+    public void deleteCategory(Long categoryId){
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND)) ;
         categoryRepository.delete(category);
     }

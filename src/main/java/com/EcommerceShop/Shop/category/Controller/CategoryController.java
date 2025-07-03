@@ -33,13 +33,13 @@ public class CategoryController {
     }
 
     @PutMapping("/{categoryId}")
-    ApiResponseWrapper<CategoryResponse> updateCategory(@PathVariable String categoryId, @RequestBody CategoryRequest request){
+    ApiResponseWrapper<CategoryResponse> updateCategory(@PathVariable Long categoryId, @RequestBody CategoryRequest request){
         return ApiResponseWrapper.<CategoryResponse>builder()
                 .data(categoryService.updateCategory(categoryId,request)).build();
     }
 
     @DeleteMapping("/{categoryId}")
-    ApiResponseWrapper<?> deleteCategory(@PathVariable String categoryId){
+    ApiResponseWrapper<?> deleteCategory(@PathVariable Long categoryId){
         categoryService.deleteCategory(categoryId);
         return ApiResponseWrapper.builder()
                 .code(200)

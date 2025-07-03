@@ -17,6 +17,7 @@ import com.EcommerceShop.Shop.category.CategoryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -70,7 +71,7 @@ public class ProductService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public ProductResponse addADetailToProduct(String productId, ProductDetailRequest request) {
+    public ProductResponse addADetailToProduct(Long productId, ProductDetailRequest request) {
         Product product  = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
         ProductDetail productDetail = ProductDetail.builder()
                 .info(request.getInfo())
@@ -89,14 +90,14 @@ public class ProductService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public ProductResponse updateProductInfo(String id, ProductRequest request){
+    public ProductResponse updateProductInfo(Long id, ProductRequest request){
         Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
         productMapper.update(product,request);
         return productMapper.toProductResponse(product) ;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public ProductResponse updateProductDetail(String productId, UpdateProductDetailRequest request){
+    public ProductResponse updateProductDetail(Long productId, UpdateProductDetailRequest request){
         Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
         ProductDetail productDetail = product.getProductDetails().stream().filter(detail -> detail.getId().equals(request.getId())).findFirst().orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
 
@@ -107,18 +108,18 @@ public class ProductService {
         return productMapper.toProductResponse(product) ;
     }
 
-
+    @Cacheable(value = "products", key = "#pageable")
     public List<ProductResponse> getProductPaging(Pageable pageable) {
         return productRepository.findAll(pageable.isPaged() ? pageable : Pageable.unpaged() ).stream().map(productMapper::toProductResponse).toList() ;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteProduct(String productId){
+    public void deleteProduct(Long productId){
         Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND))  ;
         productRepository.delete(product);
     }
 
-    public ProductResponse getProductById(String productId){
+    public ProductResponse getProductById(Long productId){
         return productMapper.toProductResponse(productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND))) ;
     }
 }

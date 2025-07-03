@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    ApiResponseWrapper<ProductResponse> getProductById(@PathVariable String productId){
+    ApiResponseWrapper<ProductResponse> getProductById(@PathVariable Long productId){
         return ApiResponseWrapper.<ProductResponse>builder()
                 .data(productService.getProductById(productId)).build();
     }
@@ -40,25 +40,25 @@ public class ProductController {
     }
 
     @PostMapping("/{productId}/detail")
-    ApiResponseWrapper<ProductResponse> addADetailToProduct(@PathVariable String productId, @RequestBody ProductDetailRequest request){
+    ApiResponseWrapper<ProductResponse> addADetailToProduct(@PathVariable Long productId, @RequestBody ProductDetailRequest request){
         return ApiResponseWrapper.<ProductResponse>builder()
                 .data(productService.addADetailToProduct(productId,request)).build();
     }
 
     @PutMapping("/{productId}/info")
-    ApiResponseWrapper<ProductResponse> updateProduct(@PathVariable String productId, @RequestBody ProductRequest request){
+    ApiResponseWrapper<ProductResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductRequest request){
         return ApiResponseWrapper.<ProductResponse>builder()
                 .data(productService.updateProductInfo(productId,request)).build() ;
     }
 
     @PutMapping("/{productId}/detail")
-    ApiResponseWrapper<ProductResponse> updateProductDetail(@PathVariable String productId, @RequestBody UpdateProductDetailRequest request){
+    ApiResponseWrapper<ProductResponse> updateProductDetail(@PathVariable Long productId, @RequestBody UpdateProductDetailRequest request){
         return ApiResponseWrapper.<ProductResponse>builder()
                 .data(productService.updateProductDetail(productId,request)).build() ;
     }
 
     @DeleteMapping("/{productId}")
-    ApiResponseWrapper<?> deleteProduct(@PathVariable String productId){
+    ApiResponseWrapper<?> deleteProduct(@PathVariable Long productId){
         productService.deleteProduct(productId);
         return ApiResponseWrapper.builder()
                 .code(200)

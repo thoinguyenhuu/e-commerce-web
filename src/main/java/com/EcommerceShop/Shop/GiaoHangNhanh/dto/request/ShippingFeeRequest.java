@@ -10,8 +10,6 @@ import lombok.Setter;
 public class ShippingFeeRequest {
     private String to_ward_code ;
     private Long to_district_id ;
-//    private String from_ward_code ;
-//    private Long from_district_id ;
     private int weight = 1000 ;
     private int length = 30 ;
     private int width = 20 ;

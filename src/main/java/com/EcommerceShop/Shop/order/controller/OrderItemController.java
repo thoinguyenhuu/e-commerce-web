@@ -1,6 +1,8 @@
-package com.EcommerceShop.Shop.order;
+package com.EcommerceShop.Shop.order.controller;
 
+import com.EcommerceShop.Shop.order.OrderService;
 import com.EcommerceShop.Shop.order.dto.request.OrderRequest;
+import com.EcommerceShop.Shop.order.dto.response.PreviewOrderResponse;
 import com.EcommerceShop.Shop.util.ApiResponseWrapper;
 import com.EcommerceShop.Shop.order.dto.response.OrderResponse;
 import lombok.AccessLevel;
@@ -23,5 +25,12 @@ public class OrderItemController {
         return ApiResponseWrapper.<OrderResponse>builder()
                 .data(orderService.createOrderItem(request)).build();
     }
+
+    @PostMapping("/preview")
+    ApiResponseWrapper<PreviewOrderResponse> previewTotalFee(@RequestBody OrderRequest request){
+        return ApiResponseWrapper.<PreviewOrderResponse>builder()
+                .data(orderService.preview(request)).build();
+    }
+
 
 }

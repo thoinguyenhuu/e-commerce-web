@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class CartItemCreateRequest {
-    private String productId ;
-    private String detailId ;
+    private Long productId ;
+    private Long detailId ;
     private int num ;
 }

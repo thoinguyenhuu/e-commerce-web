@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UpdateProductDetailRequest {
-    private String id ;
+    private Long id ;
 
     private String info ;
 

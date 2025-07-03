@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class OrderItemRequest {
-    private String detailId ;
-    private int num ;
+    private Long detailId ;
+    private Long num ;
 }
