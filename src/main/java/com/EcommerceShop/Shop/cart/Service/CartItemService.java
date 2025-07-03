@@ -60,7 +60,7 @@ public class CartItemService {
         return cartItemMapper.toCartItemResponse(cartItemRepository.save(cartItem)) ;
     }
 
-    public void deleteCartItem(String detailId){
+    public void deleteCartItem(Long detailId){
         String username = SecurityContextHolder.getContext().getAuthentication().getName() ;
         User user  = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
         Cart cart = user.getCarts() ;
@@ -70,7 +70,7 @@ public class CartItemService {
     }
 
 
-    public CartItemResponse update(String id) {
+    public CartItemResponse update(Long id) {
         return null;
     }
 

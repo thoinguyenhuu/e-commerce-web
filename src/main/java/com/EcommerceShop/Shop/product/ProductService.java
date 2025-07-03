@@ -108,7 +108,7 @@ public class ProductService {
         return productMapper.toProductResponse(product) ;
     }
 
-    @Cacheable(value = "products", key = "#pageable")
+    @Cacheable(value = "products", key = "'page=' + #pageable.pageNumber + '&size=' + #pageable.pageSize")
     public List<ProductResponse> getProductPaging(Pageable pageable) {
         return productRepository.findAll(pageable.isPaged() ? pageable : Pageable.unpaged() ).stream().map(productMapper::toProductResponse).toList() ;
     }

@@ -24,13 +24,13 @@ public class CartItemController {
     }
 
     @PutMapping("/{itemId}")
-    ApiResponseWrapper<CartItemResponse> updateCartItem(@PathVariable String itemId){
+    ApiResponseWrapper<CartItemResponse> updateCartItem(@PathVariable Long itemId){
         return ApiResponseWrapper.<CartItemResponse>builder()
                 .data(cartItemService.update(itemId)).build();
     }
 
     @DeleteMapping("/{itemId}")
-    ApiResponseWrapper<?> deleteCartItem(@PathVariable String itemId){
+    ApiResponseWrapper<?> deleteCartItem(@PathVariable Long itemId){
         cartItemService.deleteCartItem(itemId);
         return ApiResponseWrapper.builder()
                 .code(200)
