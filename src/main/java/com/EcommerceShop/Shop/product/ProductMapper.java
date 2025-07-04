@@ -1,5 +1,6 @@
 package com.EcommerceShop.Shop.product;
 
+import com.EcommerceShop.Shop.brand.Brand;
 import com.EcommerceShop.Shop.product.Entity.Product;
 import com.EcommerceShop.Shop.product.Entity.ProductDetail;
 import com.EcommerceShop.Shop.product.dto.request.ProductRequest;
@@ -33,7 +34,13 @@ public abstract class ProductMapper {
                 .description(product.getDescription())
                 .imageUrl(product.getImageUrl())
                 .averageRate(product.getAverageRate())
-                .productDetail(product.getProductDetails().stream().map(this::toProductDetailResponse).toList()).build();
+                .productDetail(product.getProductDetails().stream().map(this::toProductDetailResponse).toList())
+                .brand(toBrand(product.getBrand()))
+                .category(product.getProductCategories().stream().map(x -> x.getCategory().getName()).toList()).build();
+    }
+    String toBrand(Brand brand){
+        if(brand == null) return "" ;
+        return brand.getName() ;
     }
     public abstract ProductDetailResponse toProductDetailResponse(ProductDetail productDetail) ;
 

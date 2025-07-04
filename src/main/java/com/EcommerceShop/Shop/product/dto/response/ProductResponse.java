@@ -17,5 +17,7 @@ public class ProductResponse {
     private String description;
     private String imageUrl;
     private Float averageRate;
+    private List<String> category ;
+    private String brand ;
     private List<ProductDetailResponse> productDetail ;
 }
