@@ -17,6 +17,7 @@ import com.EcommerceShop.Shop.category.CategoryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,6 +37,7 @@ public class ProductService {
 
     ProductMapper productMapper;
 
+    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse create(ProductRequest request) {
         Product product = productMapper.toProduct(request);
@@ -69,7 +71,7 @@ public class ProductService {
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream().map(productMapper::toProductResponse).toList();
     }
-
+    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse addADetailToProduct(Long productId, ProductDetailRequest request) {
         Product product  = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
@@ -88,7 +90,7 @@ public class ProductService {
                 .map(productCategory -> productMapper.toProductResponse(productCategory.getProduct()))
                 .toList();
     }
-
+    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse updateProductInfo(Long id, ProductRequest request){
         Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
@@ -96,6 +98,7 @@ public class ProductService {
         return productMapper.toProductResponse(product) ;
     }
 
+    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse updateProductDetail(Long productId, UpdateProductDetailRequest request){
         Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
@@ -113,6 +116,7 @@ public class ProductService {
         return productRepository.findAll(pageable.isPaged() ? pageable : Pageable.unpaged() ).stream().map(productMapper::toProductResponse).toList() ;
     }
 
+    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(Long productId){
         Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND))  ;
