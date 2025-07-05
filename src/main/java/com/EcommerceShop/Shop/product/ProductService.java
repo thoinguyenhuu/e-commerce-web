@@ -126,4 +126,11 @@ public class ProductService {
     public ProductResponse getProductById(Long productId){
         return productMapper.toProductResponse(productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND))) ;
     }
+
+    public void deleteDetail(Long productId, Long detailId){
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
+        ProductDetail item = product.getProductDetails().stream().filter(detail -> detail.getId().equals(detailId)).findFirst().orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
+        product.getProductDetails().remove(item) ;
+        productRepository.save(product) ;
+    }
 }

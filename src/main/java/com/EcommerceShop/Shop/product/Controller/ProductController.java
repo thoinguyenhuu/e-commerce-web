@@ -66,6 +66,14 @@ public class ProductController {
                 .build();
     }
 
+    @DeleteMapping("/{productId}/detail/{detailId}")
+    ApiResponseWrapper<?> deleteDetail(@PathVariable Long productId, @PathVariable Long detailId){
+        productService.deleteDetail(productId, detailId);
+        return ApiResponseWrapper.builder()
+                .code(200)
+                .message(String.format("Product detail %s has been deleted!", detailId)).build();
+    }
+
 
 
 }
