@@ -37,7 +37,7 @@ public class ProductService {
 
     ProductMapper productMapper;
 
-    @CacheEvict(value = "products", allEntries = true)
+//    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse create(ProductRequest request) {
         Product product = productMapper.toProduct(request);
@@ -71,7 +71,7 @@ public class ProductService {
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream().map(productMapper::toProductResponse).toList();
     }
-    @CacheEvict(value = "products", allEntries = true)
+//    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse addADetailToProduct(Long productId, ProductDetailRequest request) {
         Product product  = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
@@ -90,7 +90,7 @@ public class ProductService {
                 .map(productCategory -> productMapper.toProductResponse(productCategory.getProduct()))
                 .toList();
     }
-    @CacheEvict(value = "products", allEntries = true)
+//    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse updateProductInfo(Long id, ProductRequest request){
         Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
@@ -98,7 +98,7 @@ public class ProductService {
         return productMapper.toProductResponse(product) ;
     }
 
-    @CacheEvict(value = "products", allEntries = true)
+//    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse updateProductDetail(Long productId, UpdateProductDetailRequest request){
         Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
@@ -111,12 +111,12 @@ public class ProductService {
         return productMapper.toProductResponse(product) ;
     }
 
-    @Cacheable(value = "products", key = "'page=' + #pageable.pageNumber + '&size=' + #pageable.pageSize")
+//    @Cacheable(value = "products", key = "'page=' + #pageable.pageNumber + '&size=' + #pageable.pageSize")
     public List<ProductResponse> getProductPaging(Pageable pageable) {
         return productRepository.findAll(pageable.isPaged() ? pageable : Pageable.unpaged() ).stream().map(productMapper::toProductResponse).toList() ;
     }
 
-    @CacheEvict(value = "products", allEntries = true)
+//    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(Long productId){
         Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND))  ;
@@ -127,7 +127,7 @@ public class ProductService {
         return productMapper.toProductResponse(productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND))) ;
     }
 
-    @CacheEvict(value = "products", allEntries = true)
+//    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteDetail(Long productId, Long detailId){
         Product product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)) ;
