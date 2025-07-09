@@ -6,11 +6,13 @@ import com.EcommerceShop.Shop.cart.Mapper.CartItemMapper;
 import com.EcommerceShop.Shop.cart.Repository.CartItemRepository;
 import com.EcommerceShop.Shop.cart.Repository.CartRepository;
 import com.EcommerceShop.Shop.cart.dto.request.CartItemCreateRequest;
+import com.EcommerceShop.Shop.cart.dto.request.CartItemUpdateRequest;
 import com.EcommerceShop.Shop.cart.dto.response.CartItemResponse;
 import com.EcommerceShop.Shop.exception.AppException;
 import com.EcommerceShop.Shop.exception.ErrorCode;
 import com.EcommerceShop.Shop.product.Entity.Product;
 import com.EcommerceShop.Shop.product.Entity.ProductDetail;
+import com.EcommerceShop.Shop.product.repository.ProductDetailRepository;
 import com.EcommerceShop.Shop.product.repository.ProductRepository;
 import com.EcommerceShop.Shop.user.Entity.User;
 import com.EcommerceShop.Shop.user.UserRepository;
@@ -35,6 +37,7 @@ public class CartItemService {
     UserRepository userRepository ;
     CartRepository cartRepository ;
     ProductRepository productRepository ;
+    ProductDetailRepository productDetailRepository ;
     CartItemMapper cartItemMapper ;
     CartService cartService ;
 
@@ -70,8 +73,16 @@ public class CartItemService {
     }
 
 
-    public CartItemResponse update(Long id) {
-        return null;
+    public CartItemResponse update(Long id, CartItemUpdateRequest request) {
+        ProductDetail productDetail = productDetailRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.ITEM_NOT_EXIST)) ;
+        CartItem cartItem = cartItemRepository.findByItem(productDetail) ;
+        if(request.getNum() != null){
+            cartItem.setNum(request.getNum());
+        }
+        if (request.getDetailId() != null){
+            cartItem.setItem(productDetailRepository.findById(request.getDetailId()).orElseThrow(() -> new AppException(ErrorCode.ITEM_NOT_EXIST))); ;
+        }
+        return cartItemMapper.toCartItemResponse(cartItemRepository.save(cartItem)) ;
     }
 
     public List<CartItemResponse> getList(){

@@ -1,6 +1,7 @@
 package com.EcommerceShop.Shop.cart.Controller;
 
 import com.EcommerceShop.Shop.cart.dto.request.CartItemCreateRequest;
+import com.EcommerceShop.Shop.cart.dto.request.CartItemUpdateRequest;
 import com.EcommerceShop.Shop.util.ApiResponseWrapper;
 import com.EcommerceShop.Shop.cart.dto.response.CartItemResponse;
 import com.EcommerceShop.Shop.cart.Service.CartItemService;
@@ -24,9 +25,9 @@ public class CartItemController {
     }
 
     @PutMapping("/{itemId}")
-    ApiResponseWrapper<CartItemResponse> updateCartItem(@PathVariable Long itemId){
+    ApiResponseWrapper<CartItemResponse> updateCartItem(@PathVariable Long itemId, @RequestBody CartItemUpdateRequest request){
         return ApiResponseWrapper.<CartItemResponse>builder()
-                .data(cartItemService.update(itemId)).build();
+                .data(cartItemService.update(itemId, request)).build();
     }
 
     @DeleteMapping("/{itemId}")
