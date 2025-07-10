@@ -20,13 +20,24 @@ public class Address {
 
     @Column(name = "province")
     String province ;
-    Long province_id ;
+
+    @Column(name = "province_id")
+    Long provinceId ;
+
     @Column(name = "district")
     String district ;
-    Long district_id ;
+
+    @Column(name = "district_id")
+    Long districtId ;
+
     @Column(name = "ward")
     String ward ;
-    Long ward_id ;
+
+    @Column(name = "ward_id")
+    Long wardId ;
+
+
+
     @Column(name = "info")
     String info ;
 
@@ -40,6 +51,14 @@ public class Address {
     @JoinColumn(name = "user_id")
     User user ;
 
+    @Column(name = "is_default")
     boolean isDefault ;
 
+    public boolean isIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
 }

@@ -10,13 +10,20 @@ import lombok.Setter;
 public class AddressResponse {
     private Long id ;
     private String province ;
-    private Long province_id ;
+    private Long provinceId ;
     private String district ;
-    private Long district_id ;
+    private Long districtId ;
     private String ward ;
-    private Long ward_id ;
+    private Long wardId ;
     private String info ;
     private String phone ;
     private String receiverName ;
     private boolean isDefault ;
+    public boolean isIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
 }

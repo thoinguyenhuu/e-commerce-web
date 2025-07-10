@@ -26,6 +26,7 @@ public class AddressService {
     public AddressResponse createAddress(String userId, AddressRequest request){
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
         Address address = addressMapper.toAddress(request) ;
+        address.setUser(user);
         user.getAddresses().add(address) ;
         return addressMapper.toAddressResponse(addressRepository.save(address));
     }
