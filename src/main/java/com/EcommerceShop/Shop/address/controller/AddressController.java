@@ -11,6 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user/{userId}/address")
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class AddressController {
     AddressService addressService ;
 
