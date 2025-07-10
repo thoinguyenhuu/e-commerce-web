@@ -67,7 +67,7 @@ public class User implements Serializable {
     List<Feedback> feedbacks ;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<Address> addresses ;
+    List<Address> addresses ;
     // ////////////////////////////////////////////////////
     // //                                               //
     // //                                               //
