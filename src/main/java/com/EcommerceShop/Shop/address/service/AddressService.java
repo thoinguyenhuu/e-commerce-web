@@ -42,7 +42,7 @@ public class AddressService {
     public AddressResponse update(String userId, Long addressId, AddressRequest request){
         Address address = addressRepository.findById(addressId).orElseThrow(() -> new AppException(ErrorCode.ADDRESS_ID_WRONG)) ;
         addressMapper.update(address,request);
-        return addressMapper.toAddressResponse(address) ;
+        return addressMapper.toAddressResponse(addressRepository.save(address)) ;
     }
 
     public void delete(String userId, Long addressId){
