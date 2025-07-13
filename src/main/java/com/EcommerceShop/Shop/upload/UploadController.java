@@ -18,16 +18,16 @@ public class UploadController {
     @Autowired
     UploadService uploadService ;
     @PostMapping(value = "/upload")
-    ApiResponseWrapper<?> upload(@Valid @RequestPart("file") MultipartFile file ,
+    ApiResponseWrapper<UploadResponse> upload(@Valid @RequestPart("file") MultipartFile file ,
                                  @Valid @RequestPart("fileType") String fileType ,
                                  @Valid @RequestPart("ownerType") String ownerType ,
-                                 @Valid @RequestPart("ownerId") String ownerId ) throws IOException {
+                                 @Valid @RequestPart("ownerId") Long ownerId ) throws IOException {
         UploadRequest request = UploadRequest.builder()
                 .file(file)
                 .fileType(fileType)
                 .ownerId(ownerId)
                 .ownerType(ownerType).build() ;
-        return ApiResponseWrapper.builder()
+        return ApiResponseWrapper.<UploadResponse>builder()
                 .data(uploadService.upload(request.getFile(), request))
                    .build();
     }

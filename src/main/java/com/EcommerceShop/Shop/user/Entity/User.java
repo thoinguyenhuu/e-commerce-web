@@ -5,6 +5,7 @@ import com.EcommerceShop.Shop.cart.Entity.Cart;
 import com.EcommerceShop.Shop.feedback.Feedback;
 import com.EcommerceShop.Shop.order.Entity.Orders;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -30,6 +31,10 @@ public class User implements Serializable {
 
     @Column(name = "username", nullable = false, unique = true)
     String username ;
+
+    @Column(name = "email" , unique = true)
+    @Email(message = "Email không hợp lệ!")
+    String email  ;
 
     @Column(name = "password", nullable = false)
     @Size(min = 8, message = "Password must have min 8")

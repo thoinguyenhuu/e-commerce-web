@@ -34,7 +34,7 @@ public class SecurityConfig {
     String[] public_endpoint_post = {
             "/user", "/auth/**"
     } ;
-    String[] getPublic_endpoint_get = {
+    String[] public_endpoint_get = {
             "/product/**",
             "/category/all",
             "/brand/all",
@@ -55,14 +55,14 @@ public class SecurityConfig {
                                     "/v3/**",
                                     "/swagger-ui.html").permitAll()
                             .requestMatchers(HttpMethod.POST,public_endpoint_post).permitAll()
-                            .requestMatchers(HttpMethod.GET, getPublic_endpoint_get).permitAll()
+                            .requestMatchers(HttpMethod.GET, public_endpoint_get).permitAll()
                             .anyRequest().authenticated())
-                .csrf().disable();
+                .csrf().disable()
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
+                                .decoder(customJwtDecoder)
+                                .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())) ;
 
-        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
-                .decoder(customJwtDecoder)
-                .jwtAuthenticationConverter(jwtAuthenticationConverter()))
-                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())) ;
         return httpSecurity.build() ;
     }
     @Bean

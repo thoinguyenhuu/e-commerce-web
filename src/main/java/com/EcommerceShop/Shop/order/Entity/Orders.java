@@ -1,7 +1,5 @@
 package com.EcommerceShop.Shop.order.Entity;
 
-import com.EcommerceShop.Shop.feedback.Feedback;
-import com.EcommerceShop.Shop.order.OrderStatus;
 import com.EcommerceShop.Shop.user.Entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,7 +19,7 @@ import java.util.List;
 public class Orders  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id")
+    @Column(name = "id")
     String id ;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,30 +30,12 @@ public class Orders  implements Serializable {
     @Column(name = "status")
     OrderStatus status ;
 
-    @Column(name = "createAt")
+    @Column(name = "create_at")
     Date createdAt ;
 
 
-    // Link
-    /// //////////////////////////////////////////////
-    /// /
-    ///
-    ///
-    ///
-    ///
-    ///
-    /// ////////////////////////////////////////////////
     @OneToMany(mappedBy = "orders",cascade = CascadeType.ALL,orphanRemoval = true)
     List<OrderItem> orderItems;
 
-    @OneToOne
-    Feedback feedback ;
-
-
-    /// ///////////////////////////////////////////////
-    /// ///                                           ///
-    /// ////
-    ///
-    /// //////////////////////////////////////////////////
 
 }

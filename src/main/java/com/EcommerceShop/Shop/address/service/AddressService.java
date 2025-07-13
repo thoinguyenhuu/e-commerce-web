@@ -26,6 +26,9 @@ public class AddressService {
     public AddressResponse createAddress(String userId, AddressRequest request){
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)) ;
         Address address = addressMapper.toAddress(request) ;
+        if(request.getIsDefault() == null){
+            address.setIsDefault(false);
+        }
         address.setUser(user);
         user.getAddresses().add(address) ;
         return addressMapper.toAddressResponse(addressRepository.save(address));
@@ -36,10 +39,16 @@ public class AddressService {
                 .map(addressMapper::toAddressResponse).toList() ;
     }
 
-    public AddressResponse update(String userId, String addressId, AddressRequest request){
+    public AddressResponse update(String userId, Long addressId, AddressRequest request){
         Address address = addressRepository.findById(addressId).orElseThrow(() -> new AppException(ErrorCode.ADDRESS_ID_WRONG)) ;
         addressMapper.update(address,request);
         return addressMapper.toAddressResponse(address) ;
+    }
+
+    public void delete(String userId, Long addressId){
+        //?
+
+        addressRepository.deleteById(addressId);
     }
 
 }

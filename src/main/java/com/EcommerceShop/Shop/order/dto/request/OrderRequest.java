@@ -13,7 +13,6 @@ public class OrderRequest {
     private List<OrderItemRequest> items ;
     private AddressRequest shippingAddress;
     private PaymentMethod paymentMethod;
-    private String discountCode; // Optional
     private String note; // Optional
     // Getters, setters
 }

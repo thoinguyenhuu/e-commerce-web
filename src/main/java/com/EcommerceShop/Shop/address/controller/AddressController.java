@@ -32,8 +32,17 @@ public class AddressController {
     }
 
     @PutMapping("/{addressId}")
-    ApiResponseWrapper<AddressResponse> updateAddress(@PathVariable String userId, @PathVariable String addressId, @RequestBody AddressRequest request){
+    ApiResponseWrapper<AddressResponse> updateAddress(@PathVariable String userId, @PathVariable Long addressId, @RequestBody AddressRequest request){
         return ApiResponseWrapper.<AddressResponse>builder()
                 .data(addressService.update(userId,addressId,request)).build();
+    }
+
+    @DeleteMapping("/{addressId}")
+    ApiResponseWrapper<?> deleteAddress(@PathVariable String userId, @PathVariable Long addressId){
+        addressService.delete(userId, addressId);
+
+        return ApiResponseWrapper.builder()
+                .code(200)
+                .message("Address has been deleted!").build();
     }
 }

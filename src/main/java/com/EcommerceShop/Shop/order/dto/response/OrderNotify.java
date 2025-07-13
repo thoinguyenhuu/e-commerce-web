@@ -7,8 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class PreviewOrderResponse {
-    private Long shippingFee ;
-    private Double subTotal ;
-    private Double total ;
+public class OrderNotify {
+    String message ;
+    String orderId ;
 }

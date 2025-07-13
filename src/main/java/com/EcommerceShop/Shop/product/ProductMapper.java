@@ -22,7 +22,6 @@ public abstract class ProductMapper {
                 .averageRate(0.0F)
                 .imageUrl(request.getImageUrl())
                 .description(request.getDescription())
-                .orderItems(new ArrayList<>())
                 .feedback(new ArrayList<>())
                 .build();
     }
@@ -39,7 +38,7 @@ public abstract class ProductMapper {
                 .category(product.getProductCategories().stream().map(x -> x.getCategory().getName()).toList()).build();
     }
     String toBrand(Brand brand){
-        if(brand == null) return "" ;
+        if(brand == null) return null ;
         return brand.getName() ;
     }
     public abstract ProductDetailResponse toProductDetailResponse(ProductDetail productDetail) ;

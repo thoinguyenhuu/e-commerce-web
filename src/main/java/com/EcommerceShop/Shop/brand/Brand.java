@@ -31,7 +31,7 @@ public class Brand  implements Serializable {
     @Column(name = "logo")
     String logoUrl ;
 
-    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = false)
     List<Product> productList ;
 
 }

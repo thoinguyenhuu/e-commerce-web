@@ -9,7 +9,6 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
-    String password ;
     String firstName ;
     String lastName ;
     Date dob ;

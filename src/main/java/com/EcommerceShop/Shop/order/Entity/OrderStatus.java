@@ -1,4 +1,4 @@
-package com.EcommerceShop.Shop.order;
+package com.EcommerceShop.Shop.order.Entity;
 
 public enum OrderStatus {
     PENDING,          // Đơn hàng vừa được tạo, đang chờ xác nhận

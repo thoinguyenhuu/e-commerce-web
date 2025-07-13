@@ -17,5 +17,5 @@ public class UploadRequest {
     @NotBlank(message = "ownerType is required")
     private String ownerType ;
     @NotBlank(message = "ownerId is required")
-    private String ownerId ;
+    private Long ownerId ;
 }

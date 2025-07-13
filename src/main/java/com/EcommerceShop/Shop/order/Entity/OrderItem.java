@@ -1,7 +1,9 @@
 package com.EcommerceShop.Shop.order.Entity;
 
 
+import com.EcommerceShop.Shop.feedback.Feedback;
 import com.EcommerceShop.Shop.product.Entity.Product;
+import com.EcommerceShop.Shop.product.Entity.ProductDetail;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +20,7 @@ import java.io.Serializable;
 public class OrderItem  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Id")
+    @Column(name = "id")
     String id ;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,8 +29,11 @@ public class OrderItem  implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
-    Product product ;
+    ProductDetail item ;
 
     @Column(name = "num")
-    int num ;
+    Long num ;
+
+    @OneToOne
+    Feedback feedback ;
 }

@@ -1,5 +1,6 @@
 package com.EcommerceShop.Shop.GiaoHangNhanh;
 
+import com.EcommerceShop.Shop.GiaoHangNhanh.dto.response.FeeResponse;
 import com.EcommerceShop.Shop.exception.AppException;
 import com.EcommerceShop.Shop.exception.ErrorCode;
 import com.EcommerceShop.Shop.GiaoHangNhanh.dto.request.GetProvinceRequest;
@@ -94,18 +95,18 @@ public class GHNService {
 
     public Long calculateFee(ShippingFeeRequest request){
         setDefault(request);
-        ApiResponseWrapper<Long> response = webClient.post()
+        ApiResponseWrapper<FeeResponse> response = webClient.post()
                 .uri("/v2/shipping-order/fee")
                 .header("token",token)
                 .header("ShopId", shopId)
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(request)
-                .exchangeToMono(clientResponse -> clientResponse.bodyToMono(new ParameterizedTypeReference<ApiResponseWrapper<Long>>() {
+                .exchangeToMono(clientResponse -> clientResponse.bodyToMono(new ParameterizedTypeReference<ApiResponseWrapper<FeeResponse>>() {
                 }))
                 .block() ;
         assert response != null ;
         if (response.getCode() != 200) throw new AppException(ErrorCode.BAD_REQUEST, response.getMessage()) ;
-        return response.getData();
+        return response.getData().getTotal();
     }
     private void setDefault(ShippingFeeRequest request){
         request.setHeight(15);

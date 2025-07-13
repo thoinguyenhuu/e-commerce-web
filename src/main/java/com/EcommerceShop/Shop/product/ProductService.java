@@ -68,9 +68,6 @@ public class ProductService {
         return productMapper.toProductResponse(productRepository.save(product));
     }
 
-    public List<ProductResponse> getAllProducts() {
-        return productRepository.findAll().stream().map(productMapper::toProductResponse).toList();
-    }
 //    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse addADetailToProduct(Long productId, ProductDetailRequest request) {

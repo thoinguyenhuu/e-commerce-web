@@ -1,5 +1,6 @@
 package com.EcommerceShop.Shop.feedback;
 
+import com.EcommerceShop.Shop.order.Entity.OrderItem;
 import com.EcommerceShop.Shop.order.Entity.Orders;
 import com.EcommerceShop.Shop.product.Entity.Product;
 import com.EcommerceShop.Shop.user.Entity.User;
@@ -33,8 +34,8 @@ public class Feedback  implements Serializable {
     User user ;
 
     @OneToOne(mappedBy = "feedback")
-    @JoinColumn(name = "order_id")
-    Orders orders;
+    @JoinColumn(name = "order_item_id")
+    OrderItem orderItem;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

@@ -4,10 +4,12 @@ import com.EcommerceShop.Shop.category.dto.request.CategoryRequest;
 import com.EcommerceShop.Shop.category.dto.response.CategoryResponse;
 import com.EcommerceShop.Shop.exception.AppException;
 import com.EcommerceShop.Shop.exception.ErrorCode;
+import jakarta.persistence.Cacheable;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -40,13 +42,14 @@ public class CategoryService {
         return categoryRepository.findAll().stream().map(categoryMapper::toCategoryResponse).toList() ;
     }
 
+    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public CategoryResponse updateCategory(Long categoryId, CategoryRequest request){
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND)) ;
         categoryMapper.update(category,request);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category)) ;
     }
-
+    @CacheEvict(value = "products", allEntries = true)
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategory(Long categoryId){
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND)) ;

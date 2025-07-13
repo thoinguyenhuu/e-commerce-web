@@ -8,6 +8,7 @@ import com.EcommerceShop.Shop.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,7 @@ public class BrandService {
                 .description(brand.getDescription()).build()).toList() ;
     }
 
+    @CacheEvict(value = "products", allEntries = true)
     public BrandResponse updateBrand(Long brandId, BrandRequest request){
         Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND)) ;
         if (request.getDescription() != null) brand.setDescription(request.getDescription());
@@ -56,6 +58,7 @@ public class BrandService {
                 .build() ;
     }
 
+    @CacheEvict(value = "products", allEntries = true)
     public void deleteBrand(Long brandId){
         Brand brand = brandRepository.findById(brandId).orElseThrow(()-> new AppException(ErrorCode.BRAND_NOT_FOUND)) ;
         brandRepository.delete(brand);

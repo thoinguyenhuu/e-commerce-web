@@ -26,7 +26,7 @@ public class Upload {
     OwnerType ownerType ;
 
     @Column(name = "owner_id")
-    String ownerId ;
+    Long ownerId ;
 
     @Column(name = "url")
     String url ;

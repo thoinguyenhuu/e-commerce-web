@@ -1,6 +1,7 @@
 package com.EcommerceShop.Shop.product.Entity;
 
 import com.EcommerceShop.Shop.cart.Entity.CartItem;
+import com.EcommerceShop.Shop.order.Entity.OrderItem;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -36,4 +37,7 @@ public class ProductDetail  implements Serializable {
 
     @OneToMany(mappedBy = "item", orphanRemoval = true, cascade = CascadeType.ALL)
     List<CartItem> cart  ;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems;
 }

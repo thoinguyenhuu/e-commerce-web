@@ -24,5 +24,5 @@ public class AddressRequest {
         isDefault = aDefault;
     }
 
-    private boolean isDefault ;
+    private Boolean isDefault ;
 }

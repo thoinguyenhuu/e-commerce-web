@@ -9,7 +9,7 @@ import lombok.Setter;
 @Builder
 public class UploadResponse {
     private String  ownerType ;
-    private String ownerId ;
+    private Long ownerId ;
 
     private String url ;
 
