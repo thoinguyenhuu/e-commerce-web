@@ -51,7 +51,7 @@ public class SecurityConfig {
                         request.requestMatchers("/swagger-ui/**", "/v3/**", "/swagger-ui.html").permitAll()
                                 .requestMatchers(HttpMethod.POST, public_endpoint_post).permitAll()
                                 .requestMatchers(HttpMethod.GET, public_endpoint_get).permitAll()
-                                .requestMatchers("/shop-api/ws/**").permitAll() // Cho phép tất cả yêu cầu WebSocket
+                                .requestMatchers("/ws/**").permitAll() // Cho phép tất cả yêu cầu WebSocket
                                 .anyRequest().authenticated())
                 .csrf().disable()
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
@@ -74,16 +74,4 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
 
-    @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("*","http://127.0.0.1:5500")); // Cho phép tất cả origin
-        config.setAllowedMethods(List.of("*"));
-        config.setAllowedHeaders(List.of("*"));
-        // Bỏ setAllowCredentials(true) để tương thích với allowedOriginPatterns("*")
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
 }

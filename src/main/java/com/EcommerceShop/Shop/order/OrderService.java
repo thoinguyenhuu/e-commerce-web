@@ -74,7 +74,7 @@ public class OrderService {
                 .message(String.format("Có đơn hàng mới được tạo từ %s, giá trị $%.2f",
                         user.getFirstName() + " " + user.getLastName(), total))
                 .orderId(orders.getId()).build();
-        messagingTemplate.convertAndSend("/admin", orderNotify);
+        messagingTemplate.convertAndSend("/topic/admin", orderNotify);
         return orderMapper.toOrderResponse(orders) ;
     }
 
