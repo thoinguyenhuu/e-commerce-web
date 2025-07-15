@@ -121,6 +121,7 @@ public class AuthService{
         JWTClaimsSet jwtClaimsSet1 = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())
                 .claim("role", user.getRole().toString())
+                .claim("id", user.getId())
                 .issueTime(new Date())
                 .expirationTime(new Date(Instant.now().plus(time, chronoUnit).toEpochMilli()))
                 .jwtID(UUID.randomUUID().toString())

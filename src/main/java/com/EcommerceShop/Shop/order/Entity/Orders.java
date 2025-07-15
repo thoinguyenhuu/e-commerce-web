@@ -33,6 +33,7 @@ public class Orders  implements Serializable {
     @Column(name = "create_at")
     Date createdAt ;
 
+    Double total ;
 
     @OneToMany(mappedBy = "orders",cascade = CascadeType.ALL,orphanRemoval = true)
     List<OrderItem> orderItems;

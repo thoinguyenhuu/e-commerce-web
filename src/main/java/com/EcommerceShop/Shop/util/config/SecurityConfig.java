@@ -7,6 +7,8 @@ import lombok.experimental.FieldDefaults;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -56,6 +58,7 @@ public class SecurityConfig {
                                     "/swagger-ui.html").permitAll()
                             .requestMatchers(HttpMethod.POST,public_endpoint_post).permitAll()
                             .requestMatchers(HttpMethod.GET, public_endpoint_get).permitAll()
+                            .requestMatchers("/ws/**").permitAll()
                             .anyRequest().authenticated())
                 .csrf().disable()
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
@@ -64,19 +67,6 @@ public class SecurityConfig {
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())) ;
 
         return httpSecurity.build() ;
-    }
-    @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.addAllowedHeader("*");
-
-       UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-       urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-
-       return new CorsFilter(urlBasedCorsConfigurationSource);
     }
 
     @Bean
@@ -91,17 +81,17 @@ public class SecurityConfig {
         return jwtAuthenticationConverter ;
     }
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-
-        config.setAllowedOriginPatterns(List.of("*")); // ✅ Cho phép mọi origin
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // ✅ Mọi method
-        config.setAllowedHeaders(List.of("*")); // ✅ Mọi header
-        config.setAllowCredentials(true); // ⚠️ Chỉ bật nếu FE gửi cookie hoặc Authorization header
-
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:5500"));
+        config.setAllowedMethods(List.of("*"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
-        return source;
+        return new CorsFilter(source);
     }
+
 
 }

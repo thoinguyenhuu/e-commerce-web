@@ -1,9 +1,12 @@
 package com.EcommerceShop.Shop.user;
 
+import com.EcommerceShop.Shop.order.dto.response.OrderResponse;
+import com.EcommerceShop.Shop.user.dto.request.UpdatePasswordRequest;
 import com.EcommerceShop.Shop.user.dto.request.UserCreationRequest;
 import com.EcommerceShop.Shop.user.dto.request.UserUpdateRequest;
 import com.EcommerceShop.Shop.util.ApiResponseWrapper;
 import com.EcommerceShop.Shop.user.dto.response.UserResponse;
+import com.cloudinary.Api;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +60,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/password")
-    ApiResponseWrapper<?> updatePassword(@PathVariable String userId, @RequestBody String password){
+    ApiResponseWrapper<?> updatePassword(@PathVariable String userId, @RequestBody UpdatePasswordRequest password){
         userService.updatePassword(userId, password);
         return ApiResponseWrapper.builder()
                 .code(200)
@@ -71,4 +74,6 @@ public class UserController {
                 .code(200)
                 .message(String.format("User %s have been deleted", userId)).build();
     }
+
+
 }

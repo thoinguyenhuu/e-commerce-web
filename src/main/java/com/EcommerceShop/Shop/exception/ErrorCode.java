@@ -20,7 +20,9 @@ public enum ErrorCode {
     ITEM_NOT_EXIST("Item not existed!", HttpStatus.NOT_FOUND),
     BRAND_NOT_FOUND("Brand not found!", HttpStatus.NOT_FOUND),
     ADDRESS_ID_WRONG("AddressId wrong!", HttpStatus.NOT_FOUND),
-    CLOUDINARY_ERROR("Lỗi up load lên cloudinary", HttpStatus.BAD_REQUEST)
+    CLOUDINARY_ERROR("Lỗi up load lên cloudinary", HttpStatus.BAD_REQUEST),
+    ORDER_NOT_FOUND("Lỗi không tìm thấy order", HttpStatus.NOT_FOUND),
+    PASSWORD_WRONG("Password sai!", HttpStatus.BAD_REQUEST)
     ;
     ErrorCode( String message, HttpStatus httpStatus){
         this.code = httpStatus.value();

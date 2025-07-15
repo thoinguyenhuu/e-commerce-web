@@ -15,6 +15,7 @@ import com.EcommerceShop.Shop.order.dto.response.OrderResponse;
 import com.EcommerceShop.Shop.order.Repository.OrderItemRepository;
 import com.EcommerceShop.Shop.order.Repository.OrderRepository;
 import com.EcommerceShop.Shop.order.dto.response.PreviewOrderResponse;
+import com.EcommerceShop.Shop.order.mapper.OrderMapper;
 import com.EcommerceShop.Shop.product.Entity.Product;
 import com.EcommerceShop.Shop.product.Entity.ProductDetail;
 import com.EcommerceShop.Shop.product.ProductMapper;
@@ -28,6 +29,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,13 +43,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderService {
     SimpMessagingTemplate messagingTemplate ;
-    ProductRepository productRepository ;
     OrderItemRepository orderItemRepository;
     OrderRepository orderRepository;
     ProductDetailRepository productDetailRepository;
     GHNService ghnService ;
     UserRepository userRepository ;
-    ProductMapper productMapper ;
+    OrderMapper orderMapper ;
+
+
+
     @Transactional
     public OrderResponse createOrderItem(OrderRequest request) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName() ;
@@ -71,18 +75,7 @@ public class OrderService {
                         user.getFirstName() + " " + user.getLastName(), total))
                 .orderId(orders.getId()).build();
         messagingTemplate.convertAndSend("/admin", orderNotify);
-        return OrderResponse.builder()
-                .total(total)
-                .createdAt(orders.getCreatedAt())
-                .id(orders.getId())
-                .userId(orders.getUser().getId())
-                .status(OrderStatus.PENDING)
-                .orderItems(orderItems.stream().map(
-                        orderItem -> OrderItemResponse.builder()
-                                .id(orderItem.getId())
-                                .num(orderItem.getNum())
-                                .item(productMapper.toProductDetailResponse(orderItem.getItem())).build()
-                ).toList()).build() ;
+        return orderMapper.toOrderResponse(orders) ;
     }
 
     public PreviewOrderResponse preview(OrderRequest request){
@@ -116,5 +109,44 @@ public class OrderService {
                 .shippingFee(shippingFee)
                 .total(total).build();
 
+    }
+
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteOrderItem(String orderItemId){
+        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() -> new AppException(ErrorCode.ITEM_NOT_EXIST)) ;
+        Orders orders = orderItem.getOrders() ;
+        if(!orders.getUser().getUsername().equals(SecurityContextHolder.getContext().getAuthentication().getName())){
+            throw new AppException(ErrorCode.UNAUTHORIZED) ;
+        }
+        orders.getOrderItems().remove(orderItem) ;
+        if(orders.getOrderItems().isEmpty()){
+            orderRepository.delete(orders);
+        }
+        else {
+            orderRepository.save(orders) ;
+        }
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public OrderResponse updateOrderStatus(String orderId){
+        Orders orders = orderRepository.findById(orderId).orElseThrow(()-> new AppException(ErrorCode.ORDER_NOT_FOUND)) ;
+        orders.setStatus(orders.getStatus().nextStatus());
+        return orderMapper.toOrderResponse(orderRepository.save(orders)) ;
+    }
+
+    public List<OrderStatus> getListOrderStatus(){
+        return Arrays.stream(OrderStatus.values()).toList() ;
+    }
+
+    public OrderResponse getOrder(String orderId){
+        return orderMapper.toOrderResponse(orderRepository.findById(orderId)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND))) ;
+    }
+
+    public List<OrderResponse> getAllOrder(){
+        return orderRepository.findAll().stream().map(orderMapper::toOrderResponse).toList() ;
     }
 }

@@ -8,4 +8,6 @@ import lombok.Getter;
 public class OrderItemRequest {
     private Long detailId ;
     private Long num ;
+    private String imageUrl ;
+    private String name ;
 }
