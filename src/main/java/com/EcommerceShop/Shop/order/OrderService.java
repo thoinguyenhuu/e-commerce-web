@@ -82,6 +82,8 @@ public class OrderService {
         Set<Long> detailIds = request.getItems().stream().map(OrderItemRequest::getDetailId).collect(Collectors.toSet());
 
         List<ProductDetail> productDetails = productDetailRepository.findAllById(detailIds) ;
+        if(productDetails.isEmpty())
+            throw new AppException(ErrorCode.ITEM_NOT_EXIST) ;
         Map<Long, ProductDetail> detailMap = productDetails.stream().collect(Collectors.toMap(ProductDetail::getId, Function.identity())) ;
         Map<ProductDetail,Long> items  = request.getItems().stream()
                 .collect(
