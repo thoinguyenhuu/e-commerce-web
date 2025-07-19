@@ -13,8 +13,8 @@ public class AppException extends RuntimeException {
     }
 
     // Constructor có thêm message → nếu null thì dùng message mặc định
-    public AppException(ErrorCode errorCode, String message) {
-        super(message != null ? message : errorCode.getMessage());
+    public AppException(ErrorCode errorCode, String customMessage) {
+        super(customMessage != null ? customMessage : errorCode.getMessage());
         this.errorCode = errorCode;
 
     }

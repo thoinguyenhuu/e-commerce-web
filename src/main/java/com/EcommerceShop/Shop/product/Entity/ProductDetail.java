@@ -29,7 +29,7 @@ public class ProductDetail  implements Serializable {
     double price ;
 
     @Column(name = "quantity")
-    int quantity ;
+    Integer quantity ;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

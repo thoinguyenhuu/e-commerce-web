@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 public class OrderItemRequest {
     private Long detailId ;
-    private Long num ;
+    private Integer num ;
     private String imageUrl ;
     private String name ;
 }

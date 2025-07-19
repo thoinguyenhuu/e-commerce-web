@@ -24,7 +24,7 @@ public class Feedback  implements Serializable {
     String id ;
 
     @Column(name = "rate")
-    Float rate ;
+    Integer rate ;
 
     @Column(name = "comment")
     String comment ;

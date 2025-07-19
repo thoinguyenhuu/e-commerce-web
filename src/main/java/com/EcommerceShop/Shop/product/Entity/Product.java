@@ -34,16 +34,14 @@ public class Product implements Serializable {
     private String imageUrl;
 
     @Column(name = "average_rate")
-    private Float averageRate;
+    private Double averageRate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "brand_id", nullable = true)
     private Brand brand ;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Feedback> feedback ;
-
-
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductDetail> productDetails ;

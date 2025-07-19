@@ -5,6 +5,7 @@ import com.EcommerceShop.Shop.feedback.Feedback;
 import com.EcommerceShop.Shop.product.Entity.Product;
 import com.EcommerceShop.Shop.product.Entity.ProductDetail;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -32,7 +33,11 @@ public class OrderItem  implements Serializable {
     ProductDetail item ;
 
     @Column(name = "num")
-    Long num ;
+    Integer num ;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    OrderItemStatus status ;
 
     @OneToOne
     Feedback feedback ;

@@ -1,6 +1,8 @@
 package com.EcommerceShop.Shop.product;
 
 import com.EcommerceShop.Shop.brand.Brand;
+import com.EcommerceShop.Shop.exception.AppException;
+import com.EcommerceShop.Shop.exception.ErrorCode;
 import com.EcommerceShop.Shop.product.Entity.Product;
 import com.EcommerceShop.Shop.product.Entity.ProductDetail;
 import com.EcommerceShop.Shop.product.dto.request.ProductRequest;
@@ -11,6 +13,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class ProductMapper {
@@ -19,7 +22,7 @@ public abstract class ProductMapper {
                 .name(request.getName())
                 .productDetails(new ArrayList<>())
                 .productCategories(new ArrayList<>())
-                .averageRate(0.0F)
+                .averageRate(0.0)
                 .imageUrl(request.getImageUrl())
                 .description(request.getDescription())
                 .feedback(new ArrayList<>())
@@ -35,7 +38,10 @@ public abstract class ProductMapper {
                 .averageRate(product.getAverageRate())
                 .productDetail(product.getProductDetails().stream().map(this::toProductDetailResponse).toList())
                 .brand(toBrand(product.getBrand()))
-                .category(product.getProductCategories().stream().map(x -> x.getCategory().getName()).toList()).build();
+                .category(product.getProductCategories().stream().map(x -> x.getCategory().getName()).toList())
+                .minPrice(getMinPrice(product.getProductDetails()))
+                .numRate((long) product.getFeedback().size())
+                .build();
     }
     String toBrand(Brand brand){
         if(brand == null) return null ;
@@ -48,4 +54,7 @@ public abstract class ProductMapper {
     @Mapping(target = "productDetails", ignore = true )
     public abstract void update(@MappingTarget Product product, ProductRequest productRequest) ;
 
+    Double getMinPrice(List<ProductDetail> productDetails){
+        return productDetails.stream().mapToDouble(ProductDetail::getPrice).min().orElseThrow(() -> new AppException(ErrorCode.BAD_REQUEST));
+    }
 }

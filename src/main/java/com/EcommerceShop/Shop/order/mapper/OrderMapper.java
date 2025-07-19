@@ -1,7 +1,7 @@
 package com.EcommerceShop.Shop.order.mapper;
 
 import com.EcommerceShop.Shop.order.Entity.OrderItem;
-import com.EcommerceShop.Shop.order.Entity.OrderStatus;
+import com.EcommerceShop.Shop.order.Entity.OrderItemStatus;
 import com.EcommerceShop.Shop.order.Entity.Orders;
 import com.EcommerceShop.Shop.order.dto.response.OrderItemResponse;
 import com.EcommerceShop.Shop.order.dto.response.OrderResponse;
@@ -15,14 +15,14 @@ public abstract class OrderMapper {
     ProductMapper productMapper ;
 
 
-    public OrderResponse toOrderResponse(Orders orders){
+    public OrderResponse toOrderResponse(Orders orders, OrderItemStatus status){
         return OrderResponse.builder()
                 .total(orders.getTotal())
                 .createdAt(orders.getCreatedAt())
                 .id(orders.getId())
                 .userId(orders.getUser().getId())
-                .status(OrderStatus.PENDING)
-                .orderItems(orders.getOrderItems().stream().map(
+                .status(orders.getStatus())
+                .orderItems(orders.getItemByStatus(status != null ? status : OrderItemStatus.ACTIVE).stream().map(
                         this::toOrderItemResponse
                 ).toList()).build() ;
     }

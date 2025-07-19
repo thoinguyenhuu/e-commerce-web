@@ -5,26 +5,21 @@ import com.EcommerceShop.Shop.GiaoHangNhanh.dto.request.ShippingFeeRequest;
 import com.EcommerceShop.Shop.exception.AppException;
 import com.EcommerceShop.Shop.exception.ErrorCode;
 import com.EcommerceShop.Shop.order.Entity.OrderItem;
+import com.EcommerceShop.Shop.order.Entity.OrderItemStatus;
 import com.EcommerceShop.Shop.order.Entity.OrderStatus;
 import com.EcommerceShop.Shop.order.Entity.Orders;
 import com.EcommerceShop.Shop.order.dto.request.OrderItemRequest;
 import com.EcommerceShop.Shop.order.dto.request.OrderRequest;
-import com.EcommerceShop.Shop.order.dto.response.OrderItemResponse;
 import com.EcommerceShop.Shop.order.dto.response.OrderNotify;
 import com.EcommerceShop.Shop.order.dto.response.OrderResponse;
 import com.EcommerceShop.Shop.order.Repository.OrderItemRepository;
 import com.EcommerceShop.Shop.order.Repository.OrderRepository;
 import com.EcommerceShop.Shop.order.dto.response.PreviewOrderResponse;
 import com.EcommerceShop.Shop.order.mapper.OrderMapper;
-import com.EcommerceShop.Shop.product.Entity.Product;
 import com.EcommerceShop.Shop.product.Entity.ProductDetail;
-import com.EcommerceShop.Shop.product.ProductMapper;
-import com.EcommerceShop.Shop.product.dto.response.ProductDetailResponse;
 import com.EcommerceShop.Shop.product.repository.ProductDetailRepository;
-import com.EcommerceShop.Shop.product.repository.ProductRepository;
 import com.EcommerceShop.Shop.user.Entity.User;
 import com.EcommerceShop.Shop.user.UserRepository;
-import com.EcommerceShop.Shop.util.config.WebSocketConfig;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -56,17 +51,18 @@ public class OrderService {
     public OrderResponse createOrderItem(OrderRequest request) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName() ;
         User user = userRepository.findByUsername(username).orElseThrow(() -> new AppException( ErrorCode.BAD_REQUEST)) ;
-        PreviewOrderResponse response = preview(request) ;
+        PreviewOrderResponse response = preview(request);
         Double total = response.getTotal() ;
         Orders orders = Orders.builder()
                 .createdAt(new Date())
-                .status(OrderStatus.PENDING).build();
+                .status(OrderStatus.PENDING)
+                .total(total).build();
         List<OrderItem> orderItems = request.getItems().stream().map(orderItemRequest ->
                 OrderItem.builder()
                         .num(orderItemRequest.getNum())
                         .orders(orders)
-                        .item(productDetailRepository.findById(orderItemRequest.getDetailId()).orElseThrow(
-                                ()-> new AppException(ErrorCode.ITEM_NOT_EXIST))).build()).toList() ;
+                        .status(OrderItemStatus.ACTIVE)
+                        .item(orderAnItem(orderItemRequest)).build()).toList() ;
         orders.setOrderItems(orderItems);
         orders.setUser(user);
         orderRepository.save(orders) ;
@@ -75,7 +71,7 @@ public class OrderService {
                         user.getFirstName() + " " + user.getLastName(), total))
                 .orderId(orders.getId()).build();
         messagingTemplate.convertAndSend("/topic/admin", orderNotify);
-        return orderMapper.toOrderResponse(orders) ;
+        return orderMapper.toOrderResponse(orders,OrderItemStatus.ACTIVE) ;
     }
 
     public PreviewOrderResponse preview(OrderRequest request){
@@ -85,7 +81,7 @@ public class OrderService {
         if(productDetails.isEmpty())
             throw new AppException(ErrorCode.ITEM_NOT_EXIST) ;
         Map<Long, ProductDetail> detailMap = productDetails.stream().collect(Collectors.toMap(ProductDetail::getId, Function.identity())) ;
-        Map<ProductDetail,Long> items  = request.getItems().stream()
+        Map<ProductDetail,Integer> items  = request.getItems().stream()
                 .collect(
                         Collectors
                                 .toMap(orderItemRequest -> detailMap.get(orderItemRequest.getDetailId()),
@@ -94,7 +90,7 @@ public class OrderService {
         Double subTotal = items.entrySet().stream().mapToDouble(
                 value -> {
                     ProductDetail detail = value.getKey() ;
-                    Long num = value.getValue() ;
+                    Integer num = value.getValue() ;
                     return detail.getPrice()*num ;
                 }
         ).sum() ;
@@ -102,7 +98,6 @@ public class OrderService {
         Long shippingFee = ghnService.calculateFee(ShippingFeeRequest.builder()
                 .to_district_id(request.getShippingAddress().getDistrictId())
                         .to_ward_code(request.getShippingAddress().getWardId().toString())
-
                 .build()) ;
 
         Double total = subTotal + shippingFee ;
@@ -110,7 +105,6 @@ public class OrderService {
                 .subTotal(subTotal)
                 .shippingFee(shippingFee)
                 .total(total).build();
-
     }
 
 
@@ -122,13 +116,11 @@ public class OrderService {
         if(!orders.getUser().getUsername().equals(SecurityContextHolder.getContext().getAuthentication().getName())){
             throw new AppException(ErrorCode.UNAUTHORIZED) ;
         }
-        orders.getOrderItems().remove(orderItem) ;
-        if(orders.getOrderItems().isEmpty()){
-            orderRepository.delete(orders);
+        orderItem.setStatus(OrderItemStatus.REMOVE);
+        if(orders.getItemByStatus(OrderItemStatus.REMOVE).isEmpty()){
+            orders.setStatus(OrderStatus.CANCELLED);
         }
-        else {
-            orderRepository.save(orders) ;
-        }
+        orderRepository.save(orders) ;
     }
 
     @Transactional
@@ -136,7 +128,7 @@ public class OrderService {
     public OrderResponse updateOrderStatus(String orderId){
         Orders orders = orderRepository.findById(orderId).orElseThrow(()-> new AppException(ErrorCode.ORDER_NOT_FOUND)) ;
         orders.setStatus(orders.getStatus().nextStatus());
-        return orderMapper.toOrderResponse(orderRepository.save(orders)) ;
+        return orderMapper.toOrderResponse(orderRepository.save(orders), OrderItemStatus.ACTIVE) ;
     }
 
     public List<OrderStatus> getListOrderStatus(){
@@ -145,10 +137,19 @@ public class OrderService {
 
     public OrderResponse getOrder(String orderId){
         return orderMapper.toOrderResponse(orderRepository.findById(orderId)
-                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND))) ;
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND)),OrderItemStatus.ACTIVE) ;
     }
 
     public List<OrderResponse> getAllOrder(){
-        return orderRepository.findAll().stream().map(orderMapper::toOrderResponse).toList() ;
+        return orderRepository.findAll().stream().map(orders -> orderMapper.toOrderResponse(orders,OrderItemStatus.ACTIVE)).toList() ;
+    }
+
+    private ProductDetail orderAnItem(OrderItemRequest request){
+        ProductDetail detail = productDetailRepository.findById(request.getDetailId()).orElseThrow(() -> new AppException(ErrorCode.ITEM_NOT_EXIST)) ;
+        if(detail.getQuantity() < request.getNum()){
+            throw new AppException(ErrorCode.SO_LUONG_SAN_PHAM_KHONG_DU) ;
+        }
+        detail.setQuantity(detail.getQuantity() - request.getNum());
+        return detail ;
     }
 }
