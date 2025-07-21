@@ -120,6 +120,9 @@ public class OrderService {
         if(orders.getItemByStatus(OrderItemStatus.REMOVE).isEmpty()){
             orders.setStatus(OrderStatus.CANCELLED);
         }
+        ProductDetail productDetail = orderItem.getItem() ;
+        productDetail.setQuantity(productDetail.getQuantity() + orderItem.getNum());
+        productDetailRepository.save(productDetail) ;
         orderRepository.save(orders) ;
     }
 
