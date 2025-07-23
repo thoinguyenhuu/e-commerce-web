@@ -40,6 +40,6 @@ public class Orders  implements Serializable {
 
 
     public List<OrderItem> getItemByStatus(OrderItemStatus status){
-        return orderItems.stream().filter(orderItem -> orderItem.getStatus().equals(status)).toList() ;
+        return orderItems.stream().filter(orderItem -> status.equals(orderItem.getStatus())).toList() ;
     }
 }

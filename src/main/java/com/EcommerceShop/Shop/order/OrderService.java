@@ -144,7 +144,16 @@ public class OrderService {
     }
 
     public List<OrderResponse> getAllOrder(){
-        return orderRepository.findAll().stream().map(orders -> orderMapper.toOrderResponse(orders,OrderItemStatus.ACTIVE)).toList() ;
+        return orderRepository.findAll().stream()
+                .filter(orders -> {
+                    if(orders.getOrderItems().isEmpty()){
+                        orders.setStatus(OrderStatus.CANCELLED);
+                        orderRepository.save(orders) ;
+                        return false ;
+                    }
+                    return true ;
+                }).map(orders ->
+             orderMapper.toOrderResponse(orders, OrderItemStatus.ACTIVE)).toList() ;
     }
 
     private ProductDetail orderAnItem(OrderItemRequest request){
