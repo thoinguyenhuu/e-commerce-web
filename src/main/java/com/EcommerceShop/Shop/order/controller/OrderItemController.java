@@ -3,6 +3,7 @@ package com.EcommerceShop.Shop.order.controller;
 import com.EcommerceShop.Shop.order.Entity.OrderStatus;
 import com.EcommerceShop.Shop.order.OrderService;
 import com.EcommerceShop.Shop.order.dto.request.OrderRequest;
+import com.EcommerceShop.Shop.order.dto.request.UpdateStatusRequest;
 import com.EcommerceShop.Shop.order.dto.response.PreviewOrderResponse;
 import com.EcommerceShop.Shop.util.ApiResponseWrapper;
 import com.EcommerceShop.Shop.order.dto.response.OrderResponse;
@@ -45,10 +46,12 @@ public class OrderItemController {
                 .data(orderService.getOrder(orderId)).build();
     }
 
-    @PatchMapping("/{orderId}/next-status")
-    ApiResponseWrapper<OrderResponse> nextStatus(@PathVariable String orderId){
+    @PatchMapping("/{orderId}/update-status")
+    ApiResponseWrapper<OrderResponse> nextStatus(@PathVariable String orderId,
+                                                 @RequestBody UpdateStatusRequest request
+                                                 ){
         return ApiResponseWrapper.<OrderResponse>builder()
-                .data(orderService.updateOrderStatus(orderId)).build();
+                .data(orderService.updateOrderStatus(orderId,request)).build();
     }
 
     @GetMapping("/status")

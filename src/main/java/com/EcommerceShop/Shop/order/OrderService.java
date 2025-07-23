@@ -10,6 +10,7 @@ import com.EcommerceShop.Shop.order.Entity.OrderStatus;
 import com.EcommerceShop.Shop.order.Entity.Orders;
 import com.EcommerceShop.Shop.order.dto.request.OrderItemRequest;
 import com.EcommerceShop.Shop.order.dto.request.OrderRequest;
+import com.EcommerceShop.Shop.order.dto.request.UpdateStatusRequest;
 import com.EcommerceShop.Shop.order.dto.response.OrderNotify;
 import com.EcommerceShop.Shop.order.dto.response.OrderResponse;
 import com.EcommerceShop.Shop.order.Repository.OrderItemRepository;
@@ -109,7 +110,6 @@ public class OrderService {
 
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
     public void deleteOrderItem(String orderItemId){
         OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() -> new AppException(ErrorCode.ITEM_NOT_EXIST)) ;
         Orders orders = orderItem.getOrders() ;
@@ -128,9 +128,9 @@ public class OrderService {
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public OrderResponse updateOrderStatus(String orderId){
+    public OrderResponse updateOrderStatus(String orderId, UpdateStatusRequest request){
         Orders orders = orderRepository.findById(orderId).orElseThrow(()-> new AppException(ErrorCode.ORDER_NOT_FOUND)) ;
-        orders.setStatus(orders.getStatus().nextStatus());
+        orders.setStatus(OrderStatus.valueOf(request.getStatus().toUpperCase()));
         return orderMapper.toOrderResponse(orderRepository.save(orders), OrderItemStatus.ACTIVE) ;
     }
 
